@@ -11,25 +11,27 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['middleware' => 'loggin'], function(){
+
+	Route::get('/', function () {
+	    return view('Auth.login');
+	});
 });
 
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
 
-//Usando un alias para la ruta
-Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
-
-//De esta forma genera totas las rutas del resource del controlador
-//Route::resource('inscripciones', 'InscripcionController');
-
-//Route::get('inscripciones', 'InscripcionController@index');
-Route::get('inscripcion/{id}', ['uses' => 'InscripcionController@show', 'as' => 'inscripcion.show']);
-
 Route::get('registro', ['uses' => 'InscripcionController@create', 'as' => 'inscripcion.create']);
 
 Route::post('inscripcionform', ['uses' => 'InscripcionController@store', 'as' => 'inscripcion.store']);
 
 Route::get('confirmacion/{id}', ['uses' => 'InscripcionController@confirmacion', 'as' => 'inscripcion.confirmacion']);
+
+Route::group(['middleware' => 'auth'],function(){
+
+	Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
+
+	Route::get('inscripcion/{id}', ['uses' => 'InscripcionController@show', 'as' => 'inscripcion.show']);
+
+});
