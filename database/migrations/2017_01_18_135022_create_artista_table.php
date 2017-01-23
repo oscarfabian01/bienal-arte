@@ -18,6 +18,7 @@ class CreateArtistaTable extends Migration
             $table->string('nombre')->comment('Nombres del artista');
             $table->string('apellido')->comment('Apellidos de artista');
             $table->integer('pais_id')->unsigned()->comment('Pais del artista');
+            $table->string('lugar_nacimiento')->comment('Lugar nacimiento');
             $table->date('fecha_nacimiento')->comment('Fecha de nacimiento del artista');
             $table->string('direccion_postal')->comment('Dirección postal del artista');
             $table->string('email')->comment('Dirección de correo electronico');

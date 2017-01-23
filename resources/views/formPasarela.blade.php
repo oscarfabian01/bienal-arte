@@ -6,20 +6,27 @@
 
 <h1>Espere un momento por favor......</h1>
 
-<form id="form-pasarela" method="post" action="https://sandbox.gateway.payulatam.com/ppp-web-gateway/">
-  <input name="merchantId"    type="hidden"  value="508029"   >
-  <input name="accountId"     type="hidden"  value="512321" >
-  <input name="description"   type="hidden"  value="Test PAYU"  >
-  <input name="referenceCode" type="hidden"  value="TestPayU" >
-  <input name="amount"        type="hidden"  value="3"   >
-  <input name="tax"           type="hidden"  value="0"  >
-  <input name="taxReturnBase" type="hidden"  value="0" >
-  <input name="currency"      type="hidden"  value="USD" >
-  <input name="signature"     type="hidden"  value="ba9ffa71559580175585e45ce70b6c37"  >
-  <input name="test"          type="hidden"  value="1" >
-  <input name="buyerEmail"    type="hidden"  value="test@test.com" >
-  <input name="responseUrl"    type="hidden"  value="http://www.test.com/response" >
-  <input name="confirmationUrl"    type="hidden"  value="http://www.test.com/confirmation" >
+<form id="form-pasarela" method="post" action="{{$urlAmbiente}}">
+  <input name="merchantId"      type="hidden"  value="{{$merchantId}}">
+  <input name="accountId"       type="hidden"  value="{{$accountId}}" >
+  <input name="description"     type="hidden"  value="{{$description}}"  >
+  <input name="referenceCode"   type="hidden"  value="{{$referenceCode}}" >
+  <input name="amount"          type="hidden"  value="{{$amount}}"   >
+  <input name="tax"             type="hidden"  value="{{$tax}}"  >
+  <input name="taxReturnBase"   type="hidden"  value="{{$taxReturnBase}}" >
+  <input name="currency"        type="hidden"  value="{{$currency}}" >
+  <input name="signature"       type="hidden"  value="{{$signature}}"  >
+  <input name="test"            type="hidden"  value="{{$ambiente}}" >
+  <input name="buyerEmail"      type="hidden"  value="{{$buyerEmail}}" >
+  <input name="buyerFullName"   type="hidden"  value="{{$buyerFullName}}" >
+  <input name="telephone"       type="hidden"  value="{{$telephone}}" >
+  <input name="mobilePhone"     type="hidden"  value="{{$mobilePhone}}" >
+  <input name="officeTelephone" type="hidden"  value="{{$officeTelephone}}" >
+  <input name="billingAddress"  type="hidden"  value="{{$billingAddress}}" >
+  <input name="shippingAddress" type="hidden"  value="{{$shippingAddress}}" >
+  <input name="shippingCountry" type="hidden"  value="{{$shippingCountry}}" >
+  <input name="responseUrl"     type="hidden"  value="{{$responseUrl}}" >
+  <input name="confirmationUrl" type="hidden"  value="{{$confirmationUrl}}" >
 </form>
 
 <script type="text/javascript">

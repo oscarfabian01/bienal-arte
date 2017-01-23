@@ -14,6 +14,7 @@ use App\Inscripcion;
 use App\Obra;
 use Storage;
 use Illuminate\Support\Facades\Redirect;
+use Mail;
 
 class InscripcionController extends Controller
 {
@@ -115,7 +116,7 @@ class InscripcionController extends Controller
 
             $inscripcion = Inscripcion::create(['artista_id' => $artista->id, 'obra_id' => $obra->id])*/
 
-        return redirect::route('inscripcion.confirmacion', ['id' => 2]);
+        return redirect::route('inscripcion.confirmacion', ['id' => 1]);
 
     }
     /**
@@ -318,8 +319,118 @@ class InscripcionController extends Controller
 
     }
 
-    public function confirmacion($id, Request $request)
-    {
-        return view('formPasarela', ['id' => $id]);
+    public function confirmacion($id, Request $request){
+
+        //Se obtiene la información de la inscripcion
+        $inscripcion = DB::table('inscripcion as ins')
+        ->join('artista as art','art.id','=','ins.artista_id')
+        ->join('pais as pai','pai.id','=','art.pais_id')
+        ->join('obra as obr','obr.id','=','ins.obra_id')
+        ->select('ins.id as id_inscripcion',
+            'ins.created_at as fecha_inscripcion',
+            'art.nombre',
+            'art.apellido',
+            'art.pais_id',
+            'art.lugar_nacimiento',
+            'art.fecha_nacimiento',
+            'art.direccion_postal',
+            'art.email',
+            'art.telefono_movil',
+            'art.perfil_artista_id',
+            'art.ruta_hoja_vida',
+            'obr.titulo',
+            'obr.sintesis_conceptual',
+            'obr.ruta_fotos_obra',
+            'obr.tipo_obra',
+            'obr.alto_medida',
+            'obr.ancho_medida',
+            'obr.peso',
+            'obr.tema',
+            'obr.tecnica',
+            'obr.valor_venta',
+            'pai.codigo'
+            )
+        ->where('ins.id', '=', $id)
+        ->first();
+
+        //Se evalua el currency y el valor a enviar segun el pais
+        if($inscripcion->codigo == 'CO'){
+            $currency = 'COP';
+            $amount = 50000;
+        }else{
+            $currency = 'USD';
+            $amount = 25;
+        };
+
+
+        //Datos reales
+        /*$merchantId = 617638;
+        $accountId = 620305;
+        $description = 'Registro evento Bienal';
+        $referenceCode = $id;
+        $apiKey = '6WXWkPZ75cjrMback06QTFwNWn';
+        $tax = 0;
+        $taxReturnBase = 0;
+        $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
+        $signature = md5($signature);
+        $responseUrl = 'http://www.test.com/response';
+        $confirmationUrl = 'http://www.test.com/confirmation';
+        $buyerEmail = $inscripcion->email;
+        $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
+        $mobilePhone = $inscripcion->telefono_movil;
+        $billingAddress = $inscripcion->direccion_postal;
+        $shippingAddress = $inscripcion->direccion_postal;
+        $shippingCountry = $inscripcion->codigo;
+        $ambiente = 1; //1.test, 0.produccin
+        $urlAmbiente = 'https://gateway.payulatam.com/ppp-web-gateway';*/
+
+        //Pruebas
+        $merchantId = 508029;
+        $accountId = 512321;
+        $description = 'Registro evento Bienal pruebas Test PAYU';
+        $referenceCode = 'bienal8';
+        $apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
+        $tax = 0;
+        $taxReturnBase = 0;
+        $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
+        $signature = md5($signature);
+        $responseUrl = 'http://www.test.com/response';
+        $confirmationUrl = 'http://www.test.com/confirmation';
+        $buyerEmail = $inscripcion->email;
+        $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
+        $mobilePhone = $inscripcion->telefono_movil;
+        $billingAddress = $inscripcion->direccion_postal;
+        $shippingAddress = $inscripcion->direccion_postal;
+        $shippingCountry = $inscripcion->codigo;
+        $ambiente = 1; //1.test, 0.produccin
+        $urlAmbiente = 'https://sandbox.gateway.payulatam.com/ppp-web-gateway';
+
+        Mail::send('emailPayu', array('ticketsCurrentNewId'=> 'data'), function ($message){
+            $message->sender('oscarfabian01@gmail.com');
+            $message->subject('Asunto del correo');
+            $message->to('oscarfabian01@gmail.com');
+        });
+
+        return view('formPasarela', ['merchantId'      => $merchantId, 
+                                     'accountId'       => $accountId,
+                                     'description'     => $description,
+                                     'referenceCode'   => $referenceCode,
+                                     'currency'        => $currency,
+                                     'amount'          => $amount,
+                                     'tax'             => $tax,
+                                     'taxReturnBase'   => $taxReturnBase,
+                                     'signature'       => $signature,
+                                     'responseUrl'     => $responseUrl,
+                                     'confirmationUrl' => $confirmationUrl,
+                                     'buyerEmail'      => $buyerEmail,
+                                     'buyerFullName'   => $buyerFullName,
+                                     'telephone'       => $mobilePhone,
+                                     'mobilePhone'     => $mobilePhone,
+                                     'officeTelephone' => $mobilePhone,
+                                     'billingAddress'  => $billingAddress,
+                                     'shippingAddress' => $shippingAddress,
+                                     'shippingCountry' => $shippingCountry,
+                                     'ambiente'        => $ambiente,
+                                     'urlAmbiente'     => $urlAmbiente]);
     }
 }
