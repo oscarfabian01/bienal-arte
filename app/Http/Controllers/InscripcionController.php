@@ -313,8 +313,14 @@ class InscripcionController extends Controller
                              'shipping_country' => $request->shipping_country, 
                              'transaction_bank_id' => $request->transaction_bank_id, 
                              'transaction_id' => $request->transaction_id,
-                             'payment_method_name' => $request->payment_method_name]
-            );
+                             'payment_method_name' => $request->payment_method_name]);
+
+            Mail::send('emailPayu', ['reference_sale'=> $request->reference_sale, 'nickname_buyer' => $nickname_buyer], function ($message){
+                $message->sender('oscarfabian01@gmail.com');
+                $message->subject('Asunto del correo');
+                $message->to('oscarfabian01@gmail.com');
+            });
+
         }
 
     }
@@ -362,7 +368,6 @@ class InscripcionController extends Controller
             $amount = 25;
         };
 
-
         //Datos reales
         /*$merchantId = 617638;
         $accountId = 620305;
@@ -388,7 +393,7 @@ class InscripcionController extends Controller
         $merchantId = 508029;
         $accountId = 512321;
         $description = 'Registro evento Bienal pruebas Test PAYU';
-        $referenceCode = 'bienal8';
+        $referenceCode = 'bienal10';
         $apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
         $tax = 0;
         $taxReturnBase = 0;
@@ -405,7 +410,7 @@ class InscripcionController extends Controller
         $ambiente = 1; //1.test, 0.produccin
         $urlAmbiente = 'https://sandbox.gateway.payulatam.com/ppp-web-gateway';
 
-        Mail::send('emailPayu', array('ticketsCurrentNewId'=> 'data'), function ($message){
+        Mail::send('emailPayu', ['reference_sale'=> $referenceCode, 'nickname_buyer' => $buyerFullName], function ($message){
             $message->sender('oscarfabian01@gmail.com');
             $message->subject('Asunto del correo');
             $message->to('oscarfabian01@gmail.com');
