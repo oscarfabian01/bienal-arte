@@ -154,12 +154,7 @@
 											<div class="col-md-12">
 												<div class="form-group {{ $errors->has('tipoObra') ? ' has-error' : '' }}">
 													<label for="tipoObra">Tipo de obra</label>
-													<!--<select name="tipoObra" id="tipoObra" class="form-control" value="{{old('tipoObra')}}">
-														<option value="0">-- Seleccionar --</option>
-														<option value="1">Pintura</option>
-														<option value="2">Escultura</option>
-													</select>-->
-													<input type="radio" name="tipoObra" class='tipoObra' value="1"> Pintura
+													<input type="radio" name="tipoObra" class='tipoObra' value="1" checked="checked"> Pintura
 		  											<input type="radio" name="tipoObra" class='tipoObra' value="2"> Escultura
 													@if ($errors->has('tipoObra'))
 													<span>
@@ -192,7 +187,7 @@
 															@endif
 														</div>
 													</div>
-													<div id="content-peso" class="col-md-6 hide">
+													<div id="content-peso" class="col-md-6">
 														<div class="form-group {{ $errors->has('peso') ? ' has-error' : '' }}" >
 															<label for="peso">Peso(kg)</label>
 															<input type="text" name="peso" id="peso" class="form-control" value="{{old('peso')}}">
