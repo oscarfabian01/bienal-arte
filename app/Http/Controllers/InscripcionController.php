@@ -460,7 +460,7 @@ class InscripcionController extends Controller
 
     public function actualizarEstado(Request $request){
 
-        Inscripcion::where('id' => $request->idInscripcion)
+        Inscripcion::where('id', $request->idInscripcion)
             ->update(['estado', $request->estadoPayu]);
 
         return Redirect::route('inscripcion.index');
