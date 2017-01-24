@@ -19,6 +19,7 @@ use App\PerfilArtista;
 use App\TecnicaObra;
 use App\TemaObra;
 use App\Pais;
+use URL;
 
 
 class InscripcionController extends Controller
@@ -285,7 +286,7 @@ class InscripcionController extends Controller
         $firma = $request->merchant_id;
 
         if (strtoupper($firma) == strtoupper($firmacreada)) {
-            payuFactura::update(['merchant_id' => $request->merchant_id, 
+            payuFactura::create(['merchant_id' => $request->merchant_id, 
                              'state_pol' => $request->state_pol, 
                              'response_code_pol' => $request->response_code_pol, 
                              'reference_sale' => $request->reference_sale,
@@ -411,8 +412,8 @@ class InscripcionController extends Controller
         $taxReturnBase = 0;
         $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
         $signature = md5($signature);
-        $responseUrl = 'http://www.test.com/response';
-        $confirmationUrl = 'http://www.test.com/confirmation';
+        $responseUrl =  URL::to('/') . '/payurespuesta';
+        $confirmationUrl = URL::to('/') . '/payuconfirmacion';
         $buyerEmail = $inscripcion->email;
         $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
         $mobilePhone = $inscripcion->telefono_movil;
