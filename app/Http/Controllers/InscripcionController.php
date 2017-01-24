@@ -100,6 +100,7 @@ class InscripcionController extends Controller
             $artista = Artista::create(['nombre' => $request->nombre
                 ,'apellido' => $request->apellido
                 ,'pais_id' => $request->pais
+                ,'lugar_nacimiento' => $request->Lnacimiento
                 ,'fecha_nacimiento' => $request->Fnacimiento
                 ,'direccion_postal' => $request->direccion
                 ,'email' => $request->email
@@ -172,18 +173,22 @@ class InscripcionController extends Controller
     {
         $inscripcion = DB::table('inscripcion as ins')
         ->join('artista as art','art.id','=','ins.artista_id')
+        ->join('pais as pai','pai.id','=','art.pais_id')
         ->join('obra as obr','obr.id','=','ins.obra_id')
+        ->join('tecnica_obra as teo','teo.id','=','obr.tecnica')
+        ->join('tema_obra as tmo','tmo.id','=','obr.tema')
+        ->join('perfil_artista as per','per.id','=','art.perfil_artista_id')
         ->select('ins.id as id_inscripcion',
             'ins.created_at as fecha_inscripcion',
             'art.nombre',
             'art.apellido',
-            'art.pais_id',
+            'art.lugar_nacimiento',
             'art.fecha_nacimiento',
             'art.direccion_postal',
             'art.email',
             'art.telefono_movil',
-            'art.perfil_artista_id',
             'art.ruta_hoja_vida',
+            'per.perfil',
             'obr.titulo',
             'obr.sintesis_conceptual',
             'obr.ruta_fotos_obra',
@@ -191,9 +196,10 @@ class InscripcionController extends Controller
             'obr.alto_medida',
             'obr.ancho_medida',
             'obr.peso',
-            'obr.tema',
-            'obr.tecnica',
-            'obr.valor_venta'
+            'tmo.tema',
+            'teo.tecnica',
+            'obr.valor_venta',
+            'pai.pais'
             )
         ->where('ins.id', '=', $id)
         ->first();
@@ -450,5 +456,13 @@ class InscripcionController extends Controller
                                      'shippingCountry' => $shippingCountry,
                                      'ambiente'        => $ambiente,
                                      'urlAmbiente'     => $urlAmbiente]);
+    }
+
+    public function actualizarEstado(Request $request){
+
+        Inscripcion::where('id' => $request->idInscripcion)
+            ->update(['estado', $request->estadoPayu]);
+
+        return Redirect::route('inscripcion.index');
     }
 }

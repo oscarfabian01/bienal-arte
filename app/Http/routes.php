@@ -12,16 +12,14 @@
 */
 
 Route::group(['middleware' => 'loggin'], function(){
-
-	Route::get('/', function () {
-	    return view('Auth.login');
-	});
+	Route::get('/', ['uses' => 'InscripcionController@create', 'as' => 'inscripcion.create']);
 });
 
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
 Route::get('registro', ['uses' => 'InscripcionController@create', 'as' => 'inscripcion.create']);
+Route::put('actualizarestado', ['uses' => 'InscripcionController@actualizarEstado', 'as' => 'inscripcion.actualizarestado']);
 Route::get('confirmacion/{id}', ['uses' => 'InscripcionController@confirmacion', 'as' => 'inscripcion.confirmacion']);
 Route::get('payurespuesta', ['uses' => 'InscripcionController@payUresponse', 'as' => 'inscripcion.payuresponse']);
 Route::get('payuconfirmacion', ['uses' => 'InscripcionController@payUconfirmation', 

@@ -31,7 +31,7 @@
 
 <script type="text/javascript">
 
-//$('#form-pasarela').submit();
+$('#form-pasarela').submit();
 
 </script>
 
