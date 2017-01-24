@@ -17,7 +17,7 @@ class CreateInscripcionTable extends Migration
             $table->increments('id')->comment('ID de la tabla');
             $table->integer('artista_id')->unsigned()->comment('ID del artista ralacionado');
             $table->integer('obra_id')->unsigned()->comment('ID de la obra relacionada');
-            $table->integer('estado')->comment('Estado de la transacción: ');
+            $table->integer('estado')->nullable()->comment('Estado de la transacción: ');
             $table->timestamps();  
 
             //Llaves foraneas
