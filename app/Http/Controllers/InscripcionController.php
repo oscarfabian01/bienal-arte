@@ -65,14 +65,14 @@ class InscripcionController extends Controller
      */
     public function create()
     {
-        $pais = Pais::all();
+        $pais = Pais::orderBy('pais','ASC')->get();
         $tecnicaObra = TecnicaObra::all();
-        $temaObra = TemaObra::all();
-        $perfilArtista = PerfilArtista::all();
+        $temaObra = TemaObra::orderBy('tema','ASC')->get();
+        $perfilArtista = PerfilArtista::orderBy('perfil','ASC')->get();
         return view('registro', ['pais' => $pais,
             'tecnicaObra' => $tecnicaObra,
             'temaObra' => $temaObra,
-            'PerfilArtista' => $perfilArtista]);
+            'perfilArtista' => $perfilArtista]);
     }
 
     /**

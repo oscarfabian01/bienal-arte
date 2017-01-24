@@ -43,7 +43,12 @@
 								</div>
 								<div class="form-group {{ $errors->has('pais') ? ' has-error' : '' }}">
 									<label for="pais">País</label>
-									<input type="text" name="pais" id="pais" class="form-control" value="{{old('pais')}}">
+									<select name="pais" id="pais" class="form-control">
+										<option value="0">--Seleccionar--</option>
+										@foreach($pais as $rowPais)
+											<option value="{{$rowPais->id}}">{{$rowPais->pais}}</option>
+										@endforeach
+									</select>
 									@if ($errors->has('pais'))
 										<span>
 											<strong>{{ $errors->first('pais') }}</strong>
@@ -101,9 +106,9 @@
 									<label for="perfil">Perfil del artista</label>
 									<select name="perfil" id="perfil" class="form-control" value="{{old('perfil')}}">
 										<option value="0">-- Seleccionar --</option>
-										<option value="1">Navato</option>
-										<option value="2">Intermedio</option>
-										<option value="3">Avanzado</option>
+										@foreach($perfilArtista as $rowPerfilArtista)
+												<option value="{{$rowPerfilArtista->id}}">{{$rowPerfilArtista->perfil}}</option>
+										@endforeach
 									</select>
 									@if ($errors->has('perfil'))
 										<span>
@@ -208,9 +213,9 @@
 										<label for="tema">Tema</label>
 										<select name="tema" id="tema" class="form-control" value="{{old('tema')}}">
 											<option value="0">-- Seleccionar --</option>
-											<option value="1">Fenómenos desconocidos del planeta y fuera de este</option>
-											<option value="2">Fenómenos paranormales</option>
-											<option value="3">Mitos, ritos y leyendas</option>
+											@foreach($temaObra as $rowtemaObra)
+												<option value="{{$rowtemaObra->id}}">{{$rowtemaObra->tema}}</option>
+											@endforeach
 										</select>
 										@if ($errors->has('tema'))
 											<span>
@@ -222,14 +227,13 @@
 										<label for="tecnica">Técnica</label>
 										<select name="tecnica" id="tecnica" class="form-control" value="{{old('tecnica')}}">
 											<option value="0">-- Seleccionar --</option>
-											<option value="1">Oleo</option>
-											<option value="2">Acrilico</option>
-											<option value="3">Técnicas Mixtas</option>
-											<option disabled="disabled">Escultura</option>
-											<option value="4">Metal</option>
-											<option value="5">Piedra</option>
-											<option value="6">Madera</option>
-											<option value="7">Técnicas Mixtas</option>
+											@foreach($tecnicaObra as $rowtecnicaObra)
+												@if($rowtecnicaObra->id == 4)
+													<option value="{{$rowtecnicaObra->id}}" disabled="disabled">{{$rowtecnicaObra->tecnica}}</option>
+												@else
+													<option value="{{$rowtecnicaObra->id}}">{{$rowtecnicaObra->tecnica}}</option>
+												@endif
+											@endforeach
 										</select>
 										@if ($errors->has('tecnica'))
 											<span>
