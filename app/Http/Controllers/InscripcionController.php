@@ -15,6 +15,11 @@ use App\Obra;
 use Storage;
 use Illuminate\Support\Facades\Redirect;
 use Mail;
+use App\PerfilArtista;
+use App\TecnicaObra;
+use App\TemaObra;
+use App\Pais;
+
 
 class InscripcionController extends Controller
 {
@@ -60,7 +65,14 @@ class InscripcionController extends Controller
      */
     public function create()
     {
-        return view('registro');
+        $pais = Pais::all();
+        $tecnicaObra = TecnicaObra::all();
+        $temaObra = TemaObra::all();
+        $perfilArtista = PerfilArtista::all();
+        return view('registro', ['pais' => $pais,
+            'tecnicaObra' => $tecnicaObra,
+            'temaObra' => $temaObra,
+            'PerfilArtista' => $perfilArtista]);
     }
 
     /**
