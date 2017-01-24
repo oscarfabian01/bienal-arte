@@ -19,6 +19,7 @@
 			<div class="panel-heading">INSCRIPCION</div>
 			<div class="panel-body">
 				{!!Form::open(['route' => 'inscripcion.store', 'method' => 'POST', 'id' => 'form-inscripcion', 'enctype' => "multipart/form-data"])!!}
+				{!!csrf_field()!!}
 					<fieldset>
 						<legend><strong>Formulario de inscripción 2017</strong></legend>
 						<div class="row">

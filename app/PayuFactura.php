@@ -11,7 +11,7 @@ class PayuFactura extends Model
      *
      * @var string
      */
-    protected $table = 'payuFactura';
+    protected $table = 'payu_factura';
 
      /**
      * The attributes that are mass assignable.

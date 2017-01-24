@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\payuFactura;
-use Illuminate\Http\Request;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use DB;
-use Validator;
-use App\Artista;
-use App\Inscripcion;
-use App\Obra;
-use Storage;
-use Illuminate\Support\Facades\Redirect;
-use Mail;
 use App\PerfilArtista;
+use App\PayuFactura;
+use App\Inscripcion;
 use App\TecnicaObra;
 use App\TemaObra;
+use App\Artista;
+use App\Obra;
 use App\Pais;
+use Validator;
+use Storage;
+use Mail;
 use URL;
+use DB;
 
 
 class InscripcionController extends Controller
@@ -84,7 +84,7 @@ class InscripcionController extends Controller
      */
     public function store(Request $request)
     {
-        /*$validator = $this->validator($request->all());
+        $validator = $this->validator($request->all());
 
         if ($validator->fails()){
             return redirect()->action('InscripcionController@create')->withErrors($validator)
@@ -128,7 +128,7 @@ class InscripcionController extends Controller
             ]);
         }
 
-            $inscripcion = Inscripcion::create(['artista_id' => $artista->id, 'obra_id' => $obra->id])*/
+        $inscripcion = Inscripcion::create(['artista_id' => $artista->id, 'obra_id' => $obra->id]);
 
         return redirect::route('inscripcion.confirmacion', ['id' => 1]);
 
@@ -279,20 +279,32 @@ class InscripcionController extends Controller
     }
 
     /**
-     * Operaciones de confirmación
+     * Operaciones de confirmación PayU
      *
      * @return \Illuminate\Http\Response
      *
      */
     public function payUconfirmation(Request $request){
         $ApiKey = "4Vj8eK4rloUd272L48hsrarnUA";
-        $New_value = number_format($request->value, 1, '.', '');
-        $firma_cadena = "$ApiKey~$request->merchant_id~$request->reference_sale~$New_value~$request->currency~$request->state_pol";
-        $firmaCreada = md5($firma_cadena);
-        $firma = $request->merchant_id;
+        $ultimo_valor = substr($request->value, -1);
+        if ($ultimo_valor == '0'){
+            $new_value = substr( $request->value , 0 , -1);
+        }else{
+            $new_value = $request->value;
+        };
+        
+        $firma_cadena = "$ApiKey~$request->merchant_id~$request->reference_sale~$new_value~$request->currency~$request->state_pol";
+        $firma_creada = md5($firma_cadena);
+        $firma = $request->sign;
 
         if (strtoupper($firma) == strtoupper($firmacreada)) {
-            payuFactura::create(['merchant_id' => $request->merchant_id, 
+
+            //Se actualiza el estado de la inscripción
+            Inscripcion::where('id', $request->reference_sale)
+            ->update(['estado', $request->state_pol]);
+
+            //Se inserta los datos de PayU a la tabla como respaldo de la operación
+            PayuFactura::create(['merchant_id' => $request->merchant_id,
                              'state_pol' => $request->state_pol, 
                              'response_code_pol' => $request->response_code_pol, 
                              'reference_sale' => $request->reference_sale,
@@ -334,11 +346,12 @@ class InscripcionController extends Controller
                              'transaction_id' => $request->transaction_id,
                              'payment_method_name' => $request->payment_method_name]);
 
-            /*Mail::send('emailPayu', ['reference_sale'=> $request->reference_sale, 'nickname_buyer' => $nickname_buyer], function ($message){
+            //Se envia mail al usuario informandole el estado de la transacción
+            Mail::send('emailPayu', ['reference_sale'=> $request->reference_sale, 'nickname_buyer' => $nickname_buyer], function ($message){
                 $message->sender('oscarfabian01@gmail.com');
                 $message->subject('Asunto del correo');
                 $message->to('oscarfabian01@gmail.com');
-            });*/
+            });
 
         }
 
@@ -397,22 +410,22 @@ class InscripcionController extends Controller
         $taxReturnBase = 0;
         $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
         $signature = md5($signature);
-        $responseUrl = 'http://www.test.com/response';
-        $confirmationUrl = 'http://www.test.com/confirmation';
+        $responseUrl =  URL::to('/') . '/payurespuesta';
+        $confirmationUrl = URL::to('/') . '/payuconfirmacion';
         $buyerEmail = $inscripcion->email;
         $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
         $mobilePhone = $inscripcion->telefono_movil;
         $billingAddress = $inscripcion->direccion_postal;
         $shippingAddress = $inscripcion->direccion_postal;
         $shippingCountry = $inscripcion->codigo;
-        $ambiente = 1; //1.test, 0.produccin
+        $ambiente = 0; //1.test, 0.produccin
         $urlAmbiente = 'https://gateway.payulatam.com/ppp-web-gateway';*/
 
         //Pruebas
         $merchantId = 508029;
         $accountId = 512321;
         $description = 'Registro evento Bienal pruebas Test PAYU';
-        $referenceCode = 'bienal11';
+        $referenceCode = 'bienal-arte' . $id;
         $apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
         $tax = 0;
         $taxReturnBase = 0;
@@ -428,12 +441,6 @@ class InscripcionController extends Controller
         $shippingCountry = $inscripcion->codigo;
         $ambiente = 1; //1.test, 0.produccin
         $urlAmbiente = 'https://sandbox.gateway.payulatam.com/ppp-web-gateway';
-
-        /*Mail::send('emailPayu', ['reference_sale'=> $referenceCode, 'nickname_buyer' => $buyerFullName], function ($message){
-            $message->sender('oscarfabian01@gmail.com');
-            $message->subject('Asunto del correo');
-            $message->to('oscarfabian01@gmail.com');
-        });*/
 
         return view('formPasarela', ['merchantId'      => $merchantId, 
                                      'accountId'       => $accountId,

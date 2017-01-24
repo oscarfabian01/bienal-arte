@@ -22,7 +22,7 @@ Route::get('registro', ['uses' => 'InscripcionController@create', 'as' => 'inscr
 Route::put('actualizarestado', ['uses' => 'InscripcionController@actualizarEstado', 'as' => 'inscripcion.actualizarestado']);
 Route::get('confirmacion/{id}', ['uses' => 'InscripcionController@confirmacion', 'as' => 'inscripcion.confirmacion']);
 Route::get('payurespuesta', ['uses' => 'InscripcionController@payUresponse', 'as' => 'inscripcion.payuresponse']);
-Route::get('payuconfirmacion', ['uses' => 'InscripcionController@payUconfirmation', 
+Route::post('payuconfirmacion', ['uses' => 'InscripcionController@payUconfirmation', 
 	'as' => 'inscripcion.payuconfirmation']);
 Route::post('inscripcionform', ['uses' => 'InscripcionController@store', 'as' => 'inscripcion.store']);
 
