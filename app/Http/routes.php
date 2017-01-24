@@ -21,17 +21,15 @@ Route::group(['middleware' => 'loggin'], function(){
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
-
 Route::get('registro', ['uses' => 'InscripcionController@create', 'as' => 'inscripcion.create']);
-
+Route::get('confirmacion/{id}', ['uses' => 'InscripcionController@confirmacion', 'as' => 'inscripcion.confirmacion']);
+Route::get('payurespuesta', ['uses' => 'InscripcionController@payUresponse', 'as' => 'inscripcion.payuresponse']);
+Route::get('payuconfirmacion', ['uses' => 'InscripcionController@payUconfirmation', 
+	'as' => 'inscripcion.payuconfirmation']);
 Route::post('inscripcionform', ['uses' => 'InscripcionController@store', 'as' => 'inscripcion.store']);
 
-Route::get('confirmacion/{id}', ['uses' => 'InscripcionController@confirmacion', 'as' => 'inscripcion.confirmacion']);
-
 Route::group(['middleware' => 'auth'],function(){
-
 	Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
-
 	Route::get('inscripcion/{id}', ['uses' => 'InscripcionController@show', 'as' => 'inscripcion.show']);
-
 });
+
