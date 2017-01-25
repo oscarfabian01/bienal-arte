@@ -7,5 +7,24 @@
 }
 
 .alertval{
-	color: #A94442;
+	color: #B39925;
+}
+
+.navbienal{
+	background: #0A0A0A;
+	border-color: #0A0A0A;
+	min-height: 110px;
+}
+
+#app-layout{
+	background: #0F0F0F;
+	color: #fff;
+}
+
+#panelbienal{
+	background: #0F0F0F;
+}
+
+.strongbienal{
+	color: #b39925;
 }

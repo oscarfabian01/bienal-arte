@@ -102,19 +102,33 @@
 	</div>
 	<!--Formulario-->
 	<div class="panel panel-primary">
-		<div class="panel-heading">Formulario</div>
+		<div class="panel-heading">Estado Payu</div>
 		<div class="panel-body">
 			{!!Form::open(['route' => 'inscripcion.actualizarestado', 'method'=>'PUT', 'id'=>'form-filtros', 'class'=>'form-inline' ])!!}
 				{!!csrf_field()!!}
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="idInscripcion" value="{{$inscripcion->id_inscripcion}}">
-				<div class="form-group">
-					<label for="estadoPayu">Estado</label>
-					<select name="estadoPayu">
-
-					</select>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('estadoPayu') ? ' has-error' : '' }}">
+							<label for="estadoPayu">Estado</label>
+							<select name="estadoPayu" id="estadoPayu">
+								<option value="0" @if($inscripcion->estado == 0) selected="selected" @endif>Seleccionar</option>
+								<option value="4" @if($inscripcion->estado == 4) selected="selected" @endif>Aprobada</option>
+								<option value="5" @if($inscripcion->estado == 5) selected="selected" @endif>Expirada</option>
+								<option value="6" @if($inscripcion->estado == 6) selected="selected" @endif>Declinada</option>
+							</select>
+							@if ($errors->has('estadoPayu'))
+								<span>
+									<strong class="alertval">{{ $errors->first('estadoPayu') }}</strong>
+								</span>
+							@endif
+						</div>
+					</div>
+					<div class="col-md-6">
+						<button>Guardar</button>
+					</div>
 				</div>
-				<button>Guardar</button>
 			{!!Form::close()!!}
 		</div>
 	</div>

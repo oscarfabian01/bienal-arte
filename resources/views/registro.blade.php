@@ -15,12 +15,12 @@
 @section('content')
 		
 	<div class="panel-group">
-		<div class="panel panel-info">
-			<div class="panel-heading">INSCRIPCION</div>
+		<div class="panel panel-warning" id="panelbienal">
+			<!--<div class="panel-heading">INSCRIPCION</div>-->
 			<div class="panel-body">
 				{!!Form::open(['route' => 'inscripcion.store', 'method' => 'POST', 'id' => 'form-inscripcion', 'enctype' => "multipart/form-data"])!!}
 					<fieldset>
-						<legend><strong>Formulario de inscripción 2017</strong></legend>
+						<legend><strong class="strongbienal">Formulario de inscripción 2017</strong></legend>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group {{ $errors->has('nombre') ? ' has-error' : '' }}">
@@ -136,7 +136,7 @@
 							</div>
 						</div>
 						<fieldset>
-							<legend><strong>Información Obra</strong></legend>
+							<legend><strong class="strongbienal">Información Obra</strong></legend>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group {{ $errors->has('titulo') ? ' has-error' : '' }}">
@@ -288,7 +288,7 @@
 					</fieldset>
 					<div class="row">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-primary">Enviar</button>
+							<button type="submit" class="btn btn-warning">Enviar</button>
 						</div>
 					</div>
 				{!!Form::close()!!} 	
