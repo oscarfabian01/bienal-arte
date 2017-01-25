@@ -5,3 +5,7 @@
 .hide{
 	display: none;
 }
+
+.alertval{
+	color: #A94442;
+}

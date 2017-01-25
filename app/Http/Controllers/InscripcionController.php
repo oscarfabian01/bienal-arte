@@ -105,7 +105,7 @@ class InscripcionController extends Controller
                 ,'direccion_postal' => $request->direccion
                 ,'email' => $request->email
                 ,'telefono_movil' => $request->telMovil
-                ,'perfil_artista' => $request->perfil
+                ,'perfil_artista_id' => $request->perfil
                 ,'ruta_hoja_vida' => $cvRoute
             ]);
 
@@ -157,6 +157,9 @@ class InscripcionController extends Controller
             ,'tipoObra' => 'required|numeric|not_in:0'
             ,'anchop' => 'numeric'
             ,'peso' => 'numeric'
+            ,'venta' => 'required_if:ventaC,1'
+            ,'ancho' => 'required_if:tipoObra,1'
+            ,'peso' => 'required_if:tipoObra,2'
 
         ];
 
@@ -350,7 +353,7 @@ class InscripcionController extends Controller
             Mail::send('emailPayu', ['reference_sale'=> $request->reference_sale, 'nickname_buyer' => $nickname_buyer], function ($message){
                 $message->sender('oscarfabian01@gmail.com');
                 $message->subject('Asunto del correo');
-                $message->to('oscarfabian01@gmail.com');
+                $message->to($request->email_buyer);
             });
 
         }
