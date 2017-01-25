@@ -6,7 +6,7 @@
 	</tr>
 	<tr>
 		<td bgcolor="#f5f7f8">
-			Tu transacción ha sido 
+			El estado de su transacción es {{$estado}}
 		</td>	
 	</tr>
 	<tr>
@@ -19,7 +19,7 @@
 				</tr>
 				<tr>
 					<td style="padding-bottom:20px">
-						La transacción {{$reference_sale}}, fue 
+						Transacción {{$reference_sale}} {{$estado}}
 					</td>
 				</tr>
 				<tr>
@@ -35,6 +35,7 @@
 									Descripción
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$description}}
 								</td>
 							</tr>
 							<tr>
@@ -42,6 +43,7 @@
 									Referencia
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$reference_pol}}
 								</td>
 							</tr>
 							<tr>
@@ -49,6 +51,7 @@
 									Valor
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$value}}
 								</td>
 							</tr>
 							<tr>
@@ -56,6 +59,7 @@
 									Moneda
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$currency}}
 								</td>
 							</tr>
 							<tr>
@@ -63,6 +67,7 @@
 									Fecha
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$date}}
 								</td>
 							</tr>
 							<tr>
@@ -70,6 +75,7 @@
 									Medio de Pago/Franquicia
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
+									{{$payment_method_name}}
 								</td>
 							</tr>
 						</table>

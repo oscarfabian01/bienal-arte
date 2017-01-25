@@ -130,7 +130,7 @@ class InscripcionController extends Controller
 
         $inscripcion = Inscripcion::create(['artista_id' => $artista->id, 'obra_id' => $obra->id]);
 
-        return redirect::route('inscripcion.confirmacion', ['id' => 1]);
+        return redirect::route('inscripcion.confirmacion', ['id' => $inscripcion->id]);
 
     }
     /**
@@ -299,12 +299,15 @@ class InscripcionController extends Controller
         $firma_cadena = "$ApiKey~$request->merchant_id~$request->reference_sale~$new_value~$request->currency~$request->state_pol";
         $firma_creada = md5($firma_cadena);
         $firma = $request->sign;
+        $referencia = explode('-', $request->reference_sale);
 
-        if (strtoupper($firma) == strtoupper($firmacreada)) {
+        if (strtoupper($firma) == strtoupper($firma_creada)) {
 
             //Se actualiza el estado de la inscripción
-            Inscripcion::where('id', $request->reference_sale)
-            ->update(['estado', $request->state_pol]);
+            Inscripcion::where('id', $referencia[2])
+            ->update(['estado' => $request->state_pol]);
+            /*Inscripcion::where('id', $request->reference_sale)
+            ->update(['estado' => $request->state_pol]);*/
 
             //Se inserta los datos de PayU a la tabla como respaldo de la operación
             PayuFactura::create(['merchant_id' => $request->merchant_id,
@@ -349,8 +352,21 @@ class InscripcionController extends Controller
                              'transaction_id' => $request->transaction_id,
                              'payment_method_name' => $request->payment_method_name]);
 
+            if ($request->state_pol == 4 ) {
+                $estado = "Aprobada";
+            }
+            else if ($request->state_pol == 6 ) {
+                $estado = "Rechazada";
+            }
+            else if ($request->state_pol == 7 ) {
+                $estado = "Pendiente";
+            }
+            else {
+                $estado = $request->response_message_pol;
+            }
+
             //Se envia mail al usuario informandole el estado de la transacción
-            Mail::send('emailPayu', ['reference_sale'=> $request->reference_sale, 'nickname_buyer' => $nickname_buyer], function ($message){
+            Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message){
                 $message->sender('oscarfabian01@gmail.com');
                 $message->subject('Asunto del correo');
                 $message->to($request->email_buyer);
@@ -428,7 +444,7 @@ class InscripcionController extends Controller
         $merchantId = 508029;
         $accountId = 512321;
         $description = 'Registro evento Bienal pruebas Test PAYU';
-        $referenceCode = 'bienal-arte' . $id;
+        $referenceCode = 'bienal-arte-' . $id;
         $apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
         $tax = 0;
         $taxReturnBase = 0;
@@ -471,7 +487,7 @@ class InscripcionController extends Controller
     public function actualizarEstado(Request $request){
 
         Inscripcion::where('id', $request->idInscripcion)
-            ->update(['estado', $request->estadoPayu]);
+            ->update(['estado' => $request->estadoPayu]);
 
         return Redirect::route('inscripcion.index');
     }
