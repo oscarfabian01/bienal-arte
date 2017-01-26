@@ -3,6 +3,8 @@
     <head>
         <title>@yield('title') | Bienal del arte</title>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" integrity="sha384-XdYbMnZ/QjLh6iI4ogqCTaIjrFk87ip+ekIjefZch0Y+PvJ8CDYtEs1ipDmPorQ+" crossorigin="anonymous">
+
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -39,14 +41,14 @@
         <div class="container">
             <div class="content">
                 @yield('content')
-                 <div class="row">
-                    <div class="col-md-4">
-                        <img src="{{URL::asset('img/logofooter.jpg')}}">
+                 <div class="row" id="rowFooter">
+                    <div class="col-md-4 centerdiv">
+                        <img id="imgFooter" src="{{URL::asset('img/logofooter.jpg')}}">
                     </div>
                     <div class="col-md-8">
-                        <blockquote>
-                            <p>Esta Bienal internacional de arte Neosurrealista fue creada el 13 de abril de 2010 y registrada en Bogotá Colombia. Por el artista Colombiano Ricardo pulido. Creador y fundador del movimiento Neosurrealista y pionero del Neosurrealismo en Colombia el 22 de diciembre de 2016.</p>
-                            <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                        <blockquote id="blockquoteFooter">
+                            <p id="pFooter">Esta Bienal internacional de arte Neosurrealista fue creada el 13 de abril de 2010 y registrada en Bogotá Colombia. Por el artista Colombiano Ricardo pulido. Creador y fundador del movimiento Neosurrealista y pionero del Neosurrealismo en Colombia el 22 de diciembre de 2016.</p>
+                            <!--<footer></footer>-->
                         </blockquote>
                     </div>
                 </div>

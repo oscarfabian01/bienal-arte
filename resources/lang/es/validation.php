@@ -28,7 +28,7 @@ return [
         'array'   => 'The :attribute must have between :min and :max items.',
     ],
     'boolean'              => 'The :attribute field must be true or false.',
-    'confirmed'            => 'The :attribute confirmation does not match.',
+    'confirmed'            => 'El campo :attribute no coincide.',
     'date'                 => 'The :attribute is not a valid date.',
     'date_format'          => 'The :attribute does not match the format :format.',
     'different'            => 'The :attribute and :other must be different.',
@@ -54,7 +54,7 @@ return [
     'min'                  => [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
-        'string'  => 'The :attribute must be at least :min characters.',
+        'string'  => 'El campo :attribute debe tener por lo menos :min caracteres.',
         'array'   => 'The :attribute must have at least :min items.',
     ],
     'not_in'               => 'La selección :attribute es invalida.',
@@ -127,6 +127,10 @@ return [
         ,'tecnica' => 'Técnica'
         ,'alto' => 'Alto(cm)'
         ,'fotosObra' => 'Fotos Obra'
-        ,'venta' => 'Valor'],
+        ,'venta' => 'Valor'
+        ,'name' => 'Nombre'
+        ,'email' => 'E-Mail'
+        ,'password' => 'Contraseña'
+        ,'password-confirm' => 'Confirmar Contraseña'],
 
 ];
