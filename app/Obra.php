@@ -18,5 +18,7 @@ class Obra extends Model
      *
      * @var array
      */
-    protected $fillable = ['titulo', 'tipo_obra', 'valor_venta', 'sintesis_conceptual', 'ruta_fotos_obra', 'alto_medida', 'ancho_medida', 'peso', 'tema', 'tecnica', 'valor_venta' ];
+    protected $fillable = ['titulo', 'tipo_obra', 'valor_venta', 'sintesis_conceptual',
+                            'sintesis_archivo', 'ruta_fotos_obra', 'alto_medida', 'ancho_medida',
+                            'peso', 'tema', 'tecnica', 'valor_venta'];
 }

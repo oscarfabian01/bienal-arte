@@ -17,6 +17,7 @@ class CreateObraTable extends Migration
             $table->increments('id')->comment('ID de la tabla');
             $table->string('titulo')->comment('Titulo de la obra');
             $table->string('sintesis_conceptual')->comment('Sintesis conceptual de la obra');
+            $table->string('sintesis_archivo')->comment('Sintesis conceptual de la obra en archivo');
             $table->string('ruta_fotos_obra')->comment('Ubicación del archivo de las fotos de la obra');
             $table->string('tipo_obra')->comment('Tipo de obra Pintara, Escultura, ETC.');
             $table->integer('alto_medida')->comment('Alto de la obra en cm');

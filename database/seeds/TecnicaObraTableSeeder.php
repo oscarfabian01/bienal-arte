@@ -12,10 +12,11 @@ class TecnicaObraTableSeeder extends Seeder
      */
     public function run()
     {
-        TecnicaObra::create(['tecnica' => 'Oleo']);
-        TecnicaObra::create(['tecnica' => 'Acrilico']);
-        TecnicaObra::create(['tecnica' => 'Técnicas Mixtas']);
-        TecnicaObra::create(['tecnica' => 'Escultura']);
+        TecnicaObra::create(['tecnica' => 'Pintura:']);
+        TecnicaObra::create(['tecnica' => '  Oleo']);
+        TecnicaObra::create(['tecnica' => '  Acrilico']);
+        TecnicaObra::create(['tecnica' => '  Técnicas Mixtas']);
+        TecnicaObra::create(['tecnica' => 'Escultura:']);
         TecnicaObra::create(['tecnica' => '  Metal']);
         TecnicaObra::create(['tecnica' => '  Piedra']);
         TecnicaObra::create(['tecnica' => '  Madera']);

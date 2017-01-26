@@ -18,5 +18,7 @@ class Artista extends Model
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'apellido', 'pais_id', 'lugar_nacimiento', 'fecha_nacimiento', 'direccion_postal', 'email', 'telefono_movil', 'perfil_artista_id', 'ruta_hoja_vida'];
+    protected $fillable = ['nombre', 'apellido', 'pais_id', 'lugar_nacimiento',
+                            'fecha_nacimiento','direccion_domicilio', 'direccion_postal', 'email',
+                            'telefono_fijo','telefono_movil', 'perfil_artista_id', 'ruta_hoja_vida'];
 }

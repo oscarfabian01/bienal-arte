@@ -50,7 +50,7 @@ return [
         'string'  => 'The :attribute may not be greater than :max characters.',
         'array'   => 'The :attribute may not have more than :max items.',
     ],
-    'mimes'                => 'The :attribute must be a file of type: :values.',
+    'mimes'                => 'El campo :attribute debe ser un archivo de tipo: :values.',
     'min'                  => [
         'numeric' => 'The :attribute must be at least :min.',
         'file'    => 'The :attribute must be at least :min kilobytes.',
@@ -66,7 +66,7 @@ return [
     'required_unless'      => 'The :attribute field is required unless :other is in :values.',
     'required_with'        => 'The :attribute field is required when :values is present.',
     'required_with_all'    => 'The :attribute field is required when :values is present.',
-    'required_without'     => 'The :attribute field is required when :values is not present.',
+    'required_without'     => 'El campo :attribute es requerido ya que el campo :values esta vacio.',
     'required_without_all' => 'The :attribute field is required when none of :values are present.',
     'same'                 => 'The :attribute and :other must match.',
     'size'                 => [
@@ -110,17 +110,20 @@ return [
 
     'attributes' => ['nombre' => 'Nombres'
         ,'direccion' => 'Dirección Postal'
+        ,'direccionD' => 'Dirección Domicilio'
         ,'apellido' => 'Apellido'
         ,'email' => 'Email'
         ,'pais' => 'País'
         ,'Fnacimiento' => 'Fecha Nacimiento'
         ,'telMovil' => 'Teléfono Movil'
+        ,'telFijo' => 'Teléfono Fijo'
         ,'Lnacimiento' => 'Lugar Nacimiento'
         ,'perfil' => 'Perfil del artista'
         ,'cv' => 'Hoja de vida'
         ,'titulo' => 'Titulo'
         ,'tema' => 'Tema'
         ,'sintesis' => 'Sintesis conceptual de la obra'
+        ,'sintesisArchivo' => 'Sintesis Archivo'
         ,'tecnica' => 'Técnica'
         ,'alto' => 'Alto(cm)'
         ,'fotosObra' => 'Fotos Obra'

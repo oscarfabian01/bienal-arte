@@ -103,12 +103,20 @@ public function store(Request $request)
             ,'pais_id' => $request->pais
             ,'lugar_nacimiento' => $request->Lnacimiento
             ,'fecha_nacimiento' => $request->Fnacimiento
+            ,'direccion_domicilio' => $request->direccionD
             ,'direccion_postal' => $request->direccion
             ,'email' => $request->email
+            ,'telefono_fijo' => $request->telFijo
             ,'telefono_movil' => $request->telMovil
             ,'perfil_artista_id' => $request->perfil
             ,'ruta_hoja_vida' => $cvRoute
         ]);
+
+        $sintesisArchivo = $request->file('sintesisArchivo');
+
+        $sintesisArchivoRoute = time().'_'.$sintesisArchivo->getClientOriginalName();
+
+        Storage::disk('sintesis')->put($sintesisArchivoRoute, file_get_contents( $sintesisArchivo->getRealPath() ));
 
         $fotosObra = $request->file('fotosObra');
 
@@ -118,6 +126,7 @@ public function store(Request $request)
 
         $obra = Obra::create(['titulo' => $request->titulo
             ,'sintesis_conceptual' => $request->sintesis
+            ,'sintesis_archivo' => $request->sintesisArchivo
             ,'ruta_fotos_obra' => $fotosObraRoute
             ,'tipo_obra' => $request->tipoObra
             ,'alto_medida' => $request->alto
@@ -145,22 +154,23 @@ private function validator(array $array){
         ,'Lnacimiento' => 'required'
         ,'Fnacimiento' => 'required'
         ,'direccion' => 'required|max:255'
+        ,'direccionD' => 'required|max:255'
         ,'email' => 'required|email|max:255'
+        ,'telFijo' => 'required|numeric'
         ,'telMovil' => 'required|numeric'
         ,'perfil' => 'required|numeric|not_in:0'
         ,'cv' => 'required|mimes:doc,pdf'
         ,'titulo' => 'required|max:255'
-        ,'sintesis' => 'required|max:255'
+        ,'sintesis' => 'required_without:sintesisArchivo'
+        ,'sintesisArchivo' => 'required_without:sintesis|mimes:doc,pdf'
         ,'tema' => 'required|numeric|not_in:0'
         ,'tecnica' => 'required|numeric|not_in:0'
         ,'fotosObra' => 'required|mimes:doc,pdf'
         ,'alto' => 'required|numeric'
         ,'tipoObra' => 'required|numeric|not_in:0'
-        ,'anchop' => 'numeric'
-        ,'peso' => 'numeric'
         ,'venta' => 'required_if:ventaC,1'
-        ,'ancho' => 'required_if:tipoObra,1'
-        ,'peso' => 'required_if:tipoObra,2'
+        ,'ancho' => 'numeric|required_if:tipoObra,1'
+        ,'peso' => 'numeric|required_if:tipoObra,2'
 
     ];
 
