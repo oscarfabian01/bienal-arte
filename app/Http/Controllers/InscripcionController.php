@@ -199,8 +199,10 @@ public function show($id)
         'art.apellido',
         'art.lugar_nacimiento',
         'art.fecha_nacimiento',
+        'art.direccion_domicilio',
         'art.direccion_postal',
         'art.email',
+        'art.telefono_fijo',
         'art.telefono_movil',
         'art.ruta_hoja_vida',
         'per.perfil',
@@ -379,7 +381,7 @@ public function payUconfirmation(Request $request){
         //Se envia mail al usuario informandole el estado de la transacción
         Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $request->nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message) use ($email){
             $message->sender('oscarfabian01@gmail.com');
-            $message->subject('Asunto del correo');
+            $message->subject('Bienal de arte neosurrealista inscripción');
             $message->to($email);
         });
 
@@ -402,8 +404,10 @@ public function confirmacion($id, Request $request){
         'art.lugar_nacimiento',
         'art.fecha_nacimiento',
         'art.direccion_postal',
+        'art.direccion_domicilio',
         'art.email',
         'art.telefono_movil',
+        'art.telefono_fijo',
         'art.perfil_artista_id',
         'art.ruta_hoja_vida',
         'obr.titulo',
@@ -445,6 +449,7 @@ public function confirmacion($id, Request $request){
     $buyerEmail = $inscripcion->email;
     $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
     $mobilePhone = $inscripcion->telefono_movil;
+    $telephone = $inscripcion->telefono_fijo;
     $billingAddress = $inscripcion->direccion_postal;
     $shippingAddress = $inscripcion->direccion_postal;
     $shippingCountry = $inscripcion->codigo;
@@ -466,6 +471,7 @@ public function confirmacion($id, Request $request){
     $buyerEmail = $inscripcion->email;
     $buyerFullName = $inscripcion->nombre . ' ' . $inscripcion->apellido;
     $mobilePhone = $inscripcion->telefono_movil;
+    $telephone = $inscripcion->telefono_fijo;
     $billingAddress = $inscripcion->direccion_postal;
     $shippingAddress = $inscripcion->direccion_postal;
     $shippingCountry = $inscripcion->codigo;
@@ -485,7 +491,7 @@ public function confirmacion($id, Request $request){
                                  'confirmationUrl' => $confirmationUrl,
                                  'buyerEmail'      => $buyerEmail,
                                  'buyerFullName'   => $buyerFullName,
-                                 'telephone'       => $mobilePhone,
+                                 'telephone'       => $telephone,
                                  'mobilePhone'     => $mobilePhone,
                                  'officeTelephone' => $mobilePhone,
                                  'billingAddress'  => $billingAddress,
@@ -495,27 +501,30 @@ public function confirmacion($id, Request $request){
                                  'urlAmbiente'     => $urlAmbiente]);
     }
 
-    public function actualizarEstado(Request $request){
-
-        $validator = $this->validatorAE($request->all());
-
-        if($validator->fails()){
-            return Redirect::route('inscripcion.show', $request->idInscripcion)->withErrors($validator)
+public function actualizarEstado(Request $request){
+    $validator = $this->validatorAE($request->all());
+    if($validator->fails()){
+        return Redirect::route('inscripcion.show', $request->idInscripcion)->withErrors($validator)
                 ->withInput();
-            }else{
-                
-                Inscripcion::where('id', $request->idInscripcion)
-                    ->update(['estado' => $request->estadoPayu]);
-                return Redirect::route('inscripcion.show', $request->idInscripcion);
-                }
+    }else{                
+        Inscripcion::where('id', $request->idInscripcion)
+            ->update(['estado' => $request->estadoPayu]);
+        return Redirect::route('inscripcion.show', $request->idInscripcion);
     }
+}
 
-    private function validatorAE(Array $array){
-        $rules = [
-            'estadoPayu' => 'not_in:0'
-        ];
+public function showEmail(){
+    $artistas = Artista::groupBy('email')
+                    ->get();
+    return view('mail', ['artistas' => $artistas]);   
+}
 
-        return validator::make($array, $rules);
-    }
+private function validatorAE(Array $array){
+    $rules = [
+        'estadoPayu' => 'not_in:0'
+    ];
+    return validator::make($array, $rules);
+}
+
 }
 

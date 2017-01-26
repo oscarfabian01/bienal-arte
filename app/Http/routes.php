@@ -29,5 +29,6 @@ Route::post('inscripcionform', ['uses' => 'InscripcionController@store', 'as' =>
 Route::group(['middleware' => 'auth'],function(){
 	Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
 	Route::get('inscripcion/{id}', ['uses' => 'InscripcionController@show', 'as' => 'inscripcion.show']);
+	Route::get('mensaje', ['uses' => 'InscripcionController@showEmail', 'as' => 'inscripcion.showemail']);
 });
 

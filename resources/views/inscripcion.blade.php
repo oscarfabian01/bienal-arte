@@ -48,11 +48,14 @@
 					<strong> Email: </strong> {{$inscripcion->email}}
 				</div>
 				<div class="col-md-6">
-					<strong> Teléfono movil: </strong> {{$inscripcion->telefono_movil}}
+					<strong> Teléfono fijo: </strong> {{$inscripcion->telefono_fijo}}
 				</div>
 			</div>
 			<div class='row'>
 				<div class="col-md-6">						
+					<strong> Teléfono móvil: </strong> {{$inscripcion->telefono_movil}}	
+				</div>
+				<div>
 					<strong> Perfil artista: </strong> {{$inscripcion->perfil}}
 				</div>
 			</div>
