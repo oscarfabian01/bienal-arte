@@ -25,6 +25,7 @@ Route::get('payurespuesta', ['uses' => 'InscripcionController@payUresponse', 'as
 Route::post('payuconfirmacion', ['uses' => 'InscripcionController@payUconfirmation', 
 	'as' => 'inscripcion.payuconfirmation']);
 Route::post('inscripcionform', ['uses' => 'InscripcionController@store', 'as' => 'inscripcion.store']);
+Route::post('sendemail', ['uses' => 'InscripcionController@sendEmail', 'as' => 'inscripcion.sendemail']);
 
 Route::group(['middleware' => 'auth'],function(){
 	Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
