@@ -363,7 +363,8 @@
 					</fieldset>
 					<div class="row">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-warning">Enviar</button>
+							<button type="submit" class="btn btn-warning botonBienal">
+							<i class="fa fa-btn fa-send"></i> Enviar</button>
 						</div>
 					</div>
 				{!!Form::close()!!} 	

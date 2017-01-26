@@ -28,3 +28,42 @@
 .strongbienal{
 	color: #b39925;
 }
+
+.centerdiv{
+	text-align: center !important;
+}
+
+#imgFooter{
+	width: 65%;
+	border: 5px solid #b39925
+}
+
+#blockquoteFooter{
+	padding: 7% 20px;
+}
+
+#pFooter{
+	text-align: justify;
+}
+
+.botonBienal{
+	background: #b39925;
+	border-color: #654b00;
+}
+
+.headingBienal{
+	background-color: #b39925 !important;
+	color: #fff !important; 
+}
+
+#app-navbar-collapse{
+	padding: 2.5%;
+}
+
+.aBienal{
+	color: #fff !important;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover{
+	background-color: #b39925 !important;
+}

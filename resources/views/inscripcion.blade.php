@@ -3,8 +3,8 @@
 
 @section('content')
 <div class="panel-group">
-	<div class="panel panel-info">
-		<div class="panel-heading">Inscripción</div>
+	<div class="panel panel-warning" id="panelbienal">
+		<div class="panel-heading headingBienal">Inscripción</div>
 		<div class="panel-body">
 			<div class='row'>
 				<div class="col-md-6">
@@ -16,8 +16,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel panel-info">
-		<div class="panel-heading">Artista</div>
+	<div class="panel panel-warning" id="panelbienal">
+		<div class="panel-heading headingBienal">Artista</div>
 		<div class="panel-body">
 			<div class='row'>
 				<div class="col-md-6">
@@ -61,8 +61,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="panel panel-primary">
-		<div class="panel-heading">Obra</div>
+	<div class="panel panel-warning" id="panelbienal">
+		<div class="panel-heading headingBienal">Obra</div>
 		<div class="panel-body">
 			<div class='row'>
 				<div class="col-md-6">
@@ -104,8 +104,8 @@
 		</div>
 	</div>
 	<!--Formulario-->
-	<div class="panel panel-primary">
-		<div class="panel-heading">Estado Payu</div>
+	<div class="panel panel-warning" id="panelbienal">
+		<div class="panel-heading headingBienal">Estado Payu</div>
 		<div class="panel-body">
 			{!!Form::open(['route' => 'inscripcion.actualizarestado', 'method'=>'PUT', 'id'=>'form-filtros', 'class'=>'form-inline' ])!!}
 				{!!csrf_field()!!}
@@ -115,7 +115,7 @@
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('estadoPayu') ? ' has-error' : '' }}">
 							<label for="estadoPayu">Estado</label>
-							<select name="estadoPayu" id="estadoPayu">
+							<select name="estadoPayu" id="estadoPayu" class="form-control">
 								<option value="0" @if($inscripcion->estado == 0) selected="selected" @endif>Seleccionar</option>
 								<option value="4" @if($inscripcion->estado == 4) selected="selected" @endif>Aprobada</option>
 								<option value="5" @if($inscripcion->estado == 5) selected="selected" @endif>Expirada</option>
@@ -129,7 +129,7 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<button>Guardar</button>
+						<button class="btn btn-primary botonBienal"l>Guardar</button>
 					</div>
 				</div>
 			{!!Form::close()!!}
