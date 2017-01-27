@@ -389,7 +389,7 @@ public function payUconfirmation(Request $request){
         //Se envia mail al usuario informandole el estado de la transacción
         Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $request->nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message) use ($email, $emailAdmin){
             $message->sender($emailAdmin);
-            $message->subject('Bienal de arte neosurrealista inscripción');
+            $message->subject('Primera bienal internacional de arte neosurealista en Colombia – Transacción');
             $message->to($email);
         });
 
@@ -542,7 +542,8 @@ public function sendEmail(Request $request){
         Mail::send('email', ['mensaje' => $request->mensaje], function ($message) use ($sender, $subject, $to){
             $message->sender($sender);
             $message->subject($subject);
-            $message->to($to);
+            $message->to($sender);
+            $message->bcc($to);
         });
         return Redirect::route('inscripcion.showemail');
     }
