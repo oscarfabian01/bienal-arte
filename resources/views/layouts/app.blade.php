@@ -41,30 +41,32 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{ url('/home') }}" class="aBienal">Home</a></li>
-                    </ul>
+                    @if (Request::path() != 'login')
+                        <!-- Left Side Of Navbar -->
+                        <ul class="nav navbar-nav">
+                            <li><a href="{{ url('/') }}" class="aBienal">Home</a></li>
+                        </ul>
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}" class="aBienal">Acceder</a></li>
-                            <li><a href="{{ url('/register') }}" class="aBienal">Registrar</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle aBienal" data-toggle="dropdown" role="button" aria-expanded="false">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
+                        <!-- Right Side Of Navbar -->
+                        <ul class="nav navbar-nav navbar-right">
+                            <!-- Authentication Links -->
+                            @if (Auth::guest())
+                                <li><a href="{{ url('/login') }}" class="aBienal">Acceder</a></li>
+                                <li><a href="{{ url('/register') }}" class="aBienal">Registrar</a></li>
+                            @else
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle aBienal" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        {{ Auth::user()->name }} <span class="caret"></span>
+                                    </a>
 
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="{{ route('inscripcion.index') }}"><i class="fa fa-btn fa-eye"></i> Inscripciones</a></li>
-                                    <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ route('inscripcion.index') }}"><i class="fa fa-btn fa-eye"></i> Inscripciones</a></li>
+                                        <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i> Salir</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+                        </ul>
+                    @endif
                 </div>
             </div>
         </nav>

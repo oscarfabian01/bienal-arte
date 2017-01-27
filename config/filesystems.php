@@ -53,9 +53,9 @@ return [
             'root'   => storage_path('app/fotos'),
         ],
 
-        'sintesis' => [
+        'sintesisObra' => [
             'driver' => 'local',
-            'root'   => storage_path('app/sintesis'),
+            'root'   => storage_path('app/sintesisobra'),
         ],
 
         'local' => [

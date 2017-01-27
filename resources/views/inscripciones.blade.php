@@ -80,6 +80,9 @@
 								Valor venta
 							</th>
 							<th>
+								Estado Transacción
+							</th>
+							<th>
 								Detalle
 							</th>
 						</tr>
@@ -100,7 +103,22 @@
 									{{$inscripcion->titulo}}
 								</td>
 								<td>
-									{{$inscripcion->valor_venta}}
+									@if(!empty($inscripcion->valor_venta))
+										{{number_format($inscripcion->valor_venta,0,',','.')}}
+									@else
+										No esta en venta
+									@endif
+								</td>
+								<td>
+									@if($inscripcion->estado==4)
+									Aprobada
+									@elseif($inscripcion->estado==5)
+									Expirada
+									@elseif($inscripcion->estado==5)
+									Declinada
+									@else
+									Sin Enviar Pago
+									@endif
 								</td>
 								<td>
 									<a class="btn btn-warning botonBienal" href='{{route("inscripcion.show",$inscripcion->id_inscripcion)}}'><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>

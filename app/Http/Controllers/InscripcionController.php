@@ -116,7 +116,9 @@ public function store(Request $request)
 
         $sintesisArchivoRoute = time().'_'.$sintesisArchivo->getClientOriginalName();
 
-        Storage::disk('sintesis')->put($sintesisArchivoRoute, file_get_contents( $sintesisArchivo->getRealPath() ));
+        Storage::disk('sintesisObra')->put($sintesisArchivoRoute, file_get_contents( $sintesisArchivo->getRealPath() ));
+
+
 
         $fotosObra = $request->file('fotosObra');
 
@@ -126,7 +128,7 @@ public function store(Request $request)
 
         $obra = Obra::create(['titulo' => $request->titulo
             ,'sintesis_conceptual' => $request->sintesis
-            ,'sintesis_archivo' => $request->sintesisArchivo
+            ,'sintesis_archivo' => $sintesisArchivoRoute
             ,'ruta_fotos_obra' => $fotosObraRoute
             ,'tipo_obra' => $request->tipoObra
             ,'alto_medida' => $request->alto
@@ -159,13 +161,13 @@ private function validator(array $array){
         ,'telFijo' => 'required|numeric'
         ,'telMovil' => 'required|numeric'
         ,'perfil' => 'required|numeric|not_in:0'
-        ,'cv' => 'required|mimes:doc,pdf'
+        ,'cv' => 'required|mimes:doc,docx,pdf'
         ,'titulo' => 'required|max:255'
         ,'sintesis' => 'required_without:sintesisArchivo'
-        ,'sintesisArchivo' => 'required_without:sintesis|mimes:doc,pdf'
+        ,'sintesisArchivo' => 'required_without:sintesis|mimes:doc,docx,pdf'
         ,'tema' => 'required|numeric|not_in:0'
         ,'tecnica' => 'required|numeric|not_in:0'
-        ,'fotosObra' => 'required|mimes:doc,pdf'
+        ,'fotosObra' => 'required|mimes:doc,docx,pdf'
         ,'alto' => 'required|numeric'
         ,'tipoObra' => 'required|numeric|not_in:0'
         ,'venta' => 'required_if:ventaC,1'
@@ -208,6 +210,7 @@ public function show($id)
         'per.perfil',
         'obr.titulo',
         'obr.sintesis_conceptual',
+        'obr.sintesis_archivo',
         'obr.ruta_fotos_obra',
         'obr.tipo_obra',
         'obr.alto_medida',
@@ -218,10 +221,15 @@ public function show($id)
         'obr.valor_venta',
         'pai.pais'
         )
+
     ->where('ins.id', '=', $id)
     ->first();
+    $hojaVida = Storage::url('cv/'.$inscripcion->ruta_hoja_vida);
+    $fotos = Storage::url('fotos/'.$inscripcion->ruta_fotos_obra);
+    $sintesisArchivo = Storage::url('sintesisobra/'.$inscripcion->sintesis_archivo);
+    //$hojaVida = Storage::get('cv/'.$inscripcion->ruta_hoja_vida);
 
-    return view('inscripcion', compact('inscripcion'));
+    return view('inscripcion', compact(['inscripcion', 'hojaVida', 'fotos', 'sintesisArchivo']));
 }
 
 /**
