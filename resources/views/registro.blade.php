@@ -20,7 +20,7 @@
 			<div class="panel-body">
 				{!!Form::open(['route' => 'inscripcion.store', 'method' => 'POST', 'id' => 'form-inscripcion', 'enctype' => "multipart/form-data"])!!}
 					<fieldset>
-						<legend><strong class="strongbienal">Formulario de inscripción 2017</strong></legend>
+						<legend><strong class="strongbienal">Formulario de inscripción 2017 a Primera bienal internacional de arte neosurealista en Colombia.</strong></legend>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group {{ $errors->has('nombre') ? ' has-error' : '' }}">
@@ -364,10 +364,12 @@
 					<div class="row">
 						<div class="col-md-12">
 							<button type="submit" class="btn btn-warning botonBienal">
-							<i class="fa fa-btn fa-send"></i> Enviar</button>
+							<i class="fa fa-btn fa-send"></i> Enviar y pagar</button>
 						</div>
 					</div>
-				{!!Form::close()!!} 	
+				{!!Form::close()!!}
+				<br>
+				<img src="{{ URL::asset('img/Payuhablaporinternet.png') }}" class='img-responsive'>
 			</div>
 		</div>
 	</div>

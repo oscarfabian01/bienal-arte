@@ -7,6 +7,9 @@
 	<tr>
 		<td bgcolor="#f5f7f8">
 			El estado de su transacción es {{$estado or "Default Message"}}
+
+			Gracias por participar en la Primera bienal internacional de arte neosurealista en Colombia, muy pronto le estaremos informando si usted es seleccionado para participar como artista seleccionado para exponer su obra enviada.
+			La bienal estará supervisada por un comité de dirección. El cual brindará asesoría y curaduría. El jurado seleccionará las obras ganadoras. Las cuales se harán merecedoras de un premio, que consiste en una exposición individual en una de las galerías patrocinadoras. Se contemplarán algunos premios adicionales.
 		</td>	
 	</tr>
 	<tr>
@@ -19,7 +22,7 @@
 				</tr>
 				<tr>
 					<td style="padding-bottom:20px">
-						Transacci贸n {{$reference_sale or "Default Message"}} {{$estado or "Default Message"}}
+						Transacción {{$reference_sale or "Default Message"}} {{$estado or "Default Message"}}
 					</td>
 				</tr>
 				<tr>
