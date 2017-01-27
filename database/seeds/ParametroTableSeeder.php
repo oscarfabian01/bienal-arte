@@ -15,6 +15,6 @@ class ParametroTableSeeder extends Seeder
         Parametro::create(['parametro' => 'emailAdmin', 'valor' => 'oscarfabian01@gmail.com']);
         Parametro::create(['parametro' => 'merchantId', 'valor' => '508029']);
         Parametro::create(['parametro' => 'accountId',  'valor' => '512321']);
-        Parametro::create(['parametro' => 'apiKey',     'valor' => '4Vj8eK4rloUd272L48hsrarnUA@gmail.com']);
+        Parametro::create(['parametro' => 'apiKey',     'valor' => '4Vj8eK4rloUd272L48hsrarnUA']);
     }
 }

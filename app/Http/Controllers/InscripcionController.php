@@ -314,6 +314,7 @@ public function payUresponse(Request $request){
 public function payUconfirmation(Request $request){
     $parametros = $this->traerParametro();
     $email = $request->email_buyer;
+    $emailAdmin = $parametros['emailAdmin']; 
     $ApiKey = $parametros['apiKey'];
     $ultimo_valor = substr($request->value, -1);
     if ($ultimo_valor == '0'){
@@ -390,8 +391,8 @@ public function payUconfirmation(Request $request){
         }
 
         //Se envia mail al usuario informandole el estado de la transacción
-        Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $request->nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message) use ($email){
-            $message->sender($parametros['emailAdmin']);
+        Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $request->nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message) use ($email, $emailAdmin){
+            $message->sender($emailAdmin);
             $message->subject('Bienal de arte neosurrealista inscripción');
             $message->to($email);
         });
