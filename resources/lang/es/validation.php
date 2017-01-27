@@ -131,6 +131,8 @@ return [
         ,'name' => 'Nombre'
         ,'email' => 'E-Mail'
         ,'password' => 'Contraseña'
-        ,'password-confirm' => 'Confirmar Contraseña'],
-
+        ,'password-confirm' => 'Confirmar Contraseña'
+        ,'subject' => 'Asunto'
+        ,'mensaje' => 'Mensaje'
+        ,'artista' => 'Artistas'],
 ];

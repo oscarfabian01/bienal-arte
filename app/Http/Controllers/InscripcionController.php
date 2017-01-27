@@ -548,7 +548,7 @@ private function validatorEmail(Array $array){
     $rules = [
                 'subject' => 'required',
                 'mensaje' => 'required',
-                'artista' => 'min:1'
+                'artista' => 'required'
             ];
     return validator::make($array, $rules);
 }
