@@ -13,6 +13,7 @@ use App\Inscripcion;
 use App\TecnicaObra;
 use App\TemaObra;
 use App\Artista;
+use App\Parametro;
 use App\Obra;
 use App\Pais;
 use Validator;
@@ -273,7 +274,8 @@ public function destroy($id)
  *
  */
 public function payUresponse(Request $request){
-    $ApiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+    $parametros = $this->traerParametro('apiKey');
+    $ApiKey = $parametros['apiKey'];
     $merchant_id = $request->merchantId;
     $referenceCode = $request->referenceCode;
     $TX_VALUE = $request->TX_VALUE;
@@ -310,8 +312,9 @@ public function payUresponse(Request $request){
  *
  */
 public function payUconfirmation(Request $request){
+    $parametros = $this->traerParametro();
     $email = $request->email_buyer;
-    $ApiKey = "4Vj8eK4rloUd272L48hsrarnUA";
+    $ApiKey = $parametros['apiKey'];
     $ultimo_valor = substr($request->value, -1);
     if ($ultimo_valor == '0'){
         $new_value = substr( $request->value , 0 , -1);
@@ -388,7 +391,7 @@ public function payUconfirmation(Request $request){
 
         //Se envia mail al usuario informandole el estado de la transacción
         Mail::send('emailPayu', ['reference_sale' => $request->reference_sale, 'nickname_buyer' => $request->nickname_buyer, 'estado' => $estado, 'description' => $request->description, 'reference_pol' => $request->reference_pol, 'value' => $request->value, 'currency' => $request->currency, 'date' => $request->date, 'payment_method_name' => $request->payment_method_name], function ($message) use ($email){
-            $message->sender('oscarfabian01@gmail.com');
+            $message->sender($parametros['emailAdmin']);
             $message->subject('Bienal de arte neosurrealista inscripción');
             $message->to($email);
         });
@@ -442,12 +445,14 @@ public function confirmacion($id, Request $request){
         $amount = 25;
     };
 
+    $parametros = $this->traerParametro();
+
     //Datos reales
-    /*$merchantId = 617638;
-    $accountId = 620305;
+    /*$merchantId = $parametros['merchantId'];
+    $accountId = $parametros['accountId'];
     $description = 'Registro evento Bienal';
     $referenceCode = $id;
-    $apiKey = '6WXWkPZ75cjrMback06QTFwNWn';
+    $apiKey = $parametros['apiKey'];
     $tax = 0;
     $taxReturnBase = 0;
     $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
@@ -465,11 +470,11 @@ public function confirmacion($id, Request $request){
     $urlAmbiente = 'https://gateway.payulatam.com/ppp-web-gateway';*/
 
     //Pruebas
-    $merchantId = 508029;
-    $accountId = 512321;
+    $merchantId = $parametros['merchantId'];
+    $accountId = $parametros['accountId'];
     $description = 'Registro evento Bienal pruebas Test PAYU';
     $referenceCode = 'bienal.arte.' . $id;
-    $apiKey = '4Vj8eK4rloUd272L48hsrarnUA';
+    $apiKey = $parametros['apiKey'];;
     $tax = 0;
     $taxReturnBase = 0;
     $signature = $apiKey . '~' . $merchantId . '~' . $referenceCode . '~' . $amount . '~' . $currency;
@@ -533,10 +538,12 @@ public function sendEmail(Request $request){
         return Redirect::route('inscripcion.showemail')->withErrors($validator)
             ->withInput();
     }else{
+        $parametros = $this->traerParametro('emailAdmin');
+        $sender = $parametros['emailAdmin'];
         $subject = $request->subject;
         $to = $request->artista;
-        Mail::send('email', ['mensaje' => $request->mensaje], function ($message) use ($subject, $to){
-            $message->sender('oscarfabian01@gmail.com');
+        Mail::send('email', ['mensaje' => $request->mensaje], function ($message) use ($sender, $subject, $to){
+            $message->sender($sender);
             $message->subject($subject);
             $message->to($to);
         });
@@ -558,6 +565,15 @@ private function validatorAE(Array $array){
         'estadoPayu' => 'not_in:0'
     ];
     return validator::make($array, $rules);
+}
+
+public function traerParametro($parametro = 'all'){
+    if($parametro != 'all'){
+        $parametro = Parametro::where('parametro', $parametro)->pluck('valor','parametro')->all();
+    }else{
+        $parametro = Parametro::pluck('valor','parametro')->all();
+    }
+    return $parametro;
 }
 
 }

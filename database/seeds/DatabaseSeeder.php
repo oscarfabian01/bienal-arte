@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TecnicaObraTableSeeder::class);
         $this->call(PaisTableSeeder::class);
         $this->call(PerfilArtistaTableSeeder::class);
+        $this->call(ParametroTableSeeder::class);
         
     }
 }
