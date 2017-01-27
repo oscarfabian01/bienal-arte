@@ -6,7 +6,7 @@
 	</tr>
 	<tr>
 		<td bgcolor="#f5f7f8">
-			El estado de su transacci贸n es {{$estado or "Default Message"}}
+			El estado de su transacción es {{$estado or "Default Message"}}
 		</td>	
 	</tr>
 	<tr>
@@ -24,7 +24,7 @@
 				</tr>
 				<tr>
 					<td>	
-						Datos de la transacci贸n:
+						Datos de la transacción:
 					</td>
 				</tr>
 				<tr>
@@ -32,7 +32,7 @@
 						<table>
 							<tr>
 								<td width="39%" height="25" bgcolor="#AFAFAF">
-									Descripci贸n
+									Descripción
 								</td>
 								<td width="61%" bgcolor="#f5f7f8">
 									{{$description or "Default Message"}}

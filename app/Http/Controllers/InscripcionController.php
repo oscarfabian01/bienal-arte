@@ -524,7 +524,33 @@ public function actualizarEstado(Request $request){
 public function showEmail(){
     $artistas = Artista::groupBy('email')
                     ->get();
-    return view('mail', ['artistas' => $artistas]);   
+    return view('formEmail', ['artistas' => $artistas]);   
+}
+
+public function sendEmail(Request $request){
+    $validator = $this->validatorEmail($request->all());
+    if($validator->fails()){
+        return Redirect::route('inscripcion.showemail')->withErrors($validator)
+            ->withInput();
+    }else{
+        $subject = $request->subject;
+        $to = $request->artista;
+        Mail::send('email', ['mensaje' => $request->mensaje], function ($message) use ($subject, $to){
+            $message->sender('oscarfabian01@gmail.com');
+            $message->subject($subject);
+            $message->to($to);
+        });
+        return Redirect::route('inscripcion.showemail');
+    }
+}
+
+private function validatorEmail(Array $array){
+    $rules = [
+                'subject' => 'required',
+                'mensaje' => 'required',
+                'artista' => 'min:1'
+            ];
+    return validator::make($array, $rules);
 }
 
 private function validatorAE(Array $array){
