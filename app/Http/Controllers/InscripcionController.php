@@ -22,7 +22,6 @@ use Mail;
 use URL;
 use DB;
 
-
 class InscripcionController extends Controller
 {
 /**
@@ -56,7 +55,7 @@ public function index(Request $request)
         $inscripciones = $inscripciones->where('obr.titulo', 'like', '%' . $request->titulo . '%');
     }
 
-    $inscripciones = $inscripciones->paginate(10);
+    $inscripciones = $inscripciones->paginate(50);
 
     return view('inscripciones', ['inscripciones' => $inscripciones, 'request' => $request]);
 }
@@ -94,9 +93,7 @@ public function store(Request $request)
     }else{
 
         $cv = $request->file('cv');
-
         $cvRoute = time().'_'.$cv->getClientOriginalName();
-
         Storage::disk('cv')->put($cvRoute, file_get_contents( $cv->getRealPath() ));
 
         $artista = Artista::create(['nombre' => $request->nombre
@@ -113,18 +110,18 @@ public function store(Request $request)
             ,'ruta_hoja_vida' => $cvRoute
         ]);
 
-        $sintesisArchivo = $request->file('sintesisArchivo');
-
-        $sintesisArchivoRoute = time().'_'.$sintesisArchivo->getClientOriginalName();
-
-        Storage::disk('sintesisObra')->put($sintesisArchivoRoute, file_get_contents( $sintesisArchivo->getRealPath() ));
-
-
+        $venta = str_replace('.','',$request->venta);
+        if($request->file('sintesisArchivo')) {
+            $sintesisArchivo = $request->file('sintesisArchivo');
+            $sintesisArchivoRoute = time().'_'.$sintesisArchivo->getClientOriginalName();
+            Storage::disk('sintesisObra')->put($sintesisArchivoRoute, file_get_contents( $sintesisArchivo->getRealPath() ));    
+        }else{
+            $sintesisArchivoRoute = '';
+        }
+       
 
         $fotosObra = $request->file('fotosObra');
-
         $fotosObraRoute = time().'_'.$fotosObra->getClientOriginalName();
-
         Storage::disk('fotos')->put($fotosObraRoute, file_get_contents( $fotosObra->getRealPath() ));
 
         $obra = Obra::create(['titulo' => $request->titulo
@@ -137,7 +134,7 @@ public function store(Request $request)
             ,'peso' => $request->peso
             ,'tema' => $request->tema
             ,'tecnica' => $request->tecnica
-            ,'valor_venta' => $request->venta
+            ,'valor_venta' => $venta
         ]);
     }
 
@@ -156,7 +153,7 @@ private function validator(array $array){
         ,'pais' => 'required|numeric|not_in:0'
         ,'Lnacimiento' => 'required'
         ,'Fnacimiento' => 'required'
-        ,'direccion' => 'required|max:255'
+        ,'direccion' => 'max:255'
         ,'direccionD' => 'required|max:255'
         ,'email' => 'required|email|max:255'
         ,'telFijo' => 'required|numeric'
@@ -174,7 +171,6 @@ private function validator(array $array){
         ,'venta' => 'required_if:ventaC,1'
         ,'ancho' => 'numeric|required_if:tipoObra,1'
         ,'peso' => 'numeric|required_if:tipoObra,2'
-
     ];
 
     return Validator::make($array, $rules);

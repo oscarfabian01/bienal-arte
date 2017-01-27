@@ -34,4 +34,16 @@ $(document).ready(function(){
         	$("#content-ancho").hide();;
         }  
     });    
+
+    $("#venta").keyup(function(){
+        var num = $(this).val().replace(/\./g,"");
+        if(!isNaN(num)){
+            num = num.toString().split("").reverse().join("").replace(/(?=\d*\.?)(\d{3})/g,"$1.");
+            num = num.split("").reverse().join("").replace(/^[\.]/,"");
+            entrada = num;
+        }else{
+            entrada = $(this).val().replace(/[^\d\.]*/g,"");
+        }
+        $("#venta").val(entrada);
+    });
 });  

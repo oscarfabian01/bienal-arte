@@ -114,14 +114,17 @@
 				</div>
 			</div>
 			<div class='row'>
-				<div class="col-md-12">
-					@if(!empty($inscripcion->sintesis_conceptual))
+				@if(!empty($inscripcion->sintesis_archivo))
+					<div class="col-md-12">
+						<strong> Sintesis archivo: </strong> <a href="{{URL::asset($sintesisArchivo)}}" target="_blank"> 
+						Descargar</a>
+					</div>
+				@endif
+				@if(!empty($inscripcion->sintesis_conceptual))
+					<div class="col-md-12">
 						<strong> Sintesis conceptual: </strong> {{$inscripcion->sintesis_conceptual}}
-					@endif
-				</div>
-				<div class="col-md-12">
-					<strong> Sintesis archivo: </strong> <a href="{{URL::asset($sintesisArchivo)}}" target="_blank"> Descargar</a>
-				</div>
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>
@@ -151,7 +154,8 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<button class="btn btn-primary botonBienal"l>Guardar</button>
+						<button class="btn btn-warning botonBienal"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+						 Guardar</button>
 					</div>
 				</div>
 			{!!Form::close()!!}
