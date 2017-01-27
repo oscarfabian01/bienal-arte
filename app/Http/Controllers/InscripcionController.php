@@ -325,7 +325,7 @@ public function payUconfirmation(Request $request){
     $firma_cadena = "$ApiKey~$request->merchant_id~$request->reference_sale~$new_value~$request->currency~$request->state_pol";
     $firma_creada = md5($firma_cadena);
     $firma = $request->sign;
-    $referencia = explode('.',$request->reference_sale);
+    $referencia = explode(',',$request->reference_sale);
 
     if (strtoupper($firma) == strtoupper($firma_creada)) {
 
@@ -473,7 +473,7 @@ public function confirmacion($id, Request $request){
     $merchantId = $parametros['merchantId'];
     $accountId = $parametros['accountId'];
     $description = 'Registro evento Bienal pruebas Test PAYU';
-    $referenceCode = 'bienal.arte.' . $id;
+    $referenceCode = 'bienal,arte,' . $id;
     $apiKey = $parametros['apiKey'];;
     $tax = 0;
     $taxReturnBase = 0;
