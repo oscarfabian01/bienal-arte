@@ -5,56 +5,52 @@
 @section('title', 'Artistas')
 	
 	<!--Formulario-->
-	{!!Form::open(['route' => 'inscripcion.index', 'method'=>'GET', 'id'=>'form-filtros', 'class'=>'form-inline' ])!!}
-		{!!csrf_field()!!}
+	
 		<div class="panel-group">
 			<div class="panel panel-warning" id="panelbienal">
 				<div class="panel-heading headingBienal">Artistas Inscritos</div>
 				<div class="panel-body">
+					{!!Form::open(['route' => 'inscripcion.index', 'method'=>'GET', 'id'=>'form-filtros'])!!}
+					{!!csrf_field()!!}
 					<div class="row">
 						<div class="col-md-3">
 							<div class="form-group">
-								<div class='form-group'>
-									<label for='id'>ID</label>
-									<input type="text" name="id" value="{{$request->id}}">
-								</div>
+								<label for='id'>ID</label>
+								<input type="text" name="id" class="form-control" value="{{$request->id}}">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<div class='form-group'>
-									<label for='nombre'>Nombre</label>
-									<input type="text" name="nombre" value="{{$request->nombre}}">
-								</div>
+								<label for='nombre'>Nombre</label>
+								<input type="text" name="nombre" class="form-control" value="{{$request->nombre}}">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<div class='form-group'>
-									<label for='apellido'>Apellido</label>
-									<input type="text" name="apellido" value="{{$request->apellido}}">
-								</div>
+								<label for='apellido'>Apellido</label>
+								<input type="text" name="apellido" class="form-control" value="{{$request->apellido}}">
 							</div>
 						</div>
 						<div class="col-md-3">
 							<div class="form-group">
-								<div class='form-group'>
-									<label for='titulo'>Título</label>
-									<input type="text" name="titulo" value="{{$request->titulo}}">
-								</div>
+								<label for='titulo'>Título</label>
+								<input type="text" name="titulo" class="form-control" value="{{$request->titulo}}">
 							</div>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<div class="form-group">
-							<button type="submit" class="btn btn-warning botonBienal">
-							<i class="fa fa-btn fa-search"></i> Buscar</button>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<button type="submit" class="btn btn-warning botonBienal">
+								<i class="fa fa-btn fa-search"></i> Buscar</button>
+							</div>
 						</div>
 					</div>
+				{!!Form::close()!!}
 				</div>
 			</div>
 		</div>
-	{!!Form::close()!!}
+	
 	
 	<!--Tabla registros -->
 	<div class="panel-group">
@@ -111,13 +107,13 @@
 								</td>
 								<td>
 									@if($inscripcion->estado==4)
-									Aprobada
+										Aprobada
 									@elseif($inscripcion->estado==5)
-									Expirada
+										Expirada
 									@elseif($inscripcion->estado==5)
-									Declinada
+										Declinada
 									@else
-									Sin Enviar Pago
+										Creado
 									@endif
 								</td>
 								<td>
