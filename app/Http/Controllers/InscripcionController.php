@@ -34,13 +34,23 @@ public function index(Request $request)
     $inscripciones = DB::table('inscripcion as ins')
     ->join('artista as art','art.id','=','ins.artista_id')
     ->join('obra as obr','obr.id','=','ins.obra_id')
+    ->join('pais as p','p.id','=','art.pais_id')
+    ->join('perfil_artista as per','per.id','=','art.perfil_artista_id')
+    ->join('tecnica_obra as tec','tec.id','=','obr.tecnica')
+    ->join('tema_obra as tem','tem.id','=','obr.tema')
     ->select('ins.id as id_inscripcion',
         'ins.created_at as fecha_inscripcion',
         'art.nombre',
         'art.apellido',
+        'art.email',
+        'art.telefono_movil',
         'obr.titulo',
         'obr.valor_venta',
-        'ins.estado'
+        'ins.estado',
+        'p.pais',
+        'per.perfil',
+        'tec.tecnica',
+        'tem.tema'
         );
     if($request->id){
         $inscripciones = $inscripciones->where('ins.id', '=', $request->id);
@@ -118,16 +128,18 @@ public function store(Request $request)
         }else{
             $sintesisArchivoRoute = '';
         }
-       
-
+        $arrayFotos = '';
         $fotosObra = $request->file('fotosObra');
-        $fotosObraRoute = time().'_'.$fotosObra->getClientOriginalName();
-        Storage::disk('fotos')->put($fotosObraRoute, file_get_contents( $fotosObra->getRealPath() ));
+        foreach ($fotosObra as $foto) {
+            $fotosObraRoute = time().'_'.$foto->getClientOriginalName();
+            Storage::disk('fotos')->put($fotosObraRoute, file_get_contents( $foto->getRealPath() ));
+            $arrayFotos = $fotosObraRoute."|".$arrayFotos;
+        }
 
         $obra = Obra::create(['titulo' => $request->titulo
             ,'sintesis_conceptual' => $request->sintesis
             ,'sintesis_archivo' => $sintesisArchivoRoute
-            ,'ruta_fotos_obra' => $fotosObraRoute
+            ,'ruta_fotos_obra' => $arrayFotos
             ,'tipo_obra' => $request->tipoObra
             ,'alto_medida' => $request->alto
             ,'ancho_medida' => $request->ancho
@@ -156,7 +168,7 @@ private function validator(array $array){
         ,'direccion' => 'max:255'
         ,'direccionD' => 'required|max:255'
         ,'email' => 'required|email|max:255'
-        ,'telFijo' => 'required|numeric'
+        ,'telFijo' => 'numeric'
         ,'telMovil' => 'required|numeric'
         ,'perfil' => 'required|numeric|not_in:0'
         ,'cv' => 'required|mimes:doc,docx,pdf'
@@ -165,7 +177,7 @@ private function validator(array $array){
         ,'sintesisArchivo' => 'required_without:sintesis|mimes:doc,docx,pdf'
         ,'tema' => 'required|numeric|not_in:0'
         ,'tecnica' => 'required|numeric|not_in:0'
-        ,'fotosObra' => 'required|mimes:doc,docx,pdf'
+        ,'fotosObra' => 'required'
         ,'alto' => 'required|numeric'
         ,'tipoObra' => 'required|numeric|not_in:0'
         ,'venta' => 'required_if:ventaC,1'
@@ -214,6 +226,7 @@ public function show($id)
         'obr.ancho_medida',
         'obr.peso',
         'tmo.tema',
+        'teo.id as id_tecnica',
         'teo.tecnica',
         'obr.valor_venta',
         'pai.pais'
@@ -221,12 +234,8 @@ public function show($id)
 
     ->where('ins.id', '=', $id)
     ->first();
-    $hojaVida = Storage::url('cv/'.$inscripcion->ruta_hoja_vida);
-    $fotos = Storage::url('fotos/'.$inscripcion->ruta_fotos_obra);
-    $sintesisArchivo = Storage::url('sintesisobra/'.$inscripcion->sintesis_archivo);
-    //$hojaVida = Storage::get('cv/'.$inscripcion->ruta_hoja_vida);
-
-    return view('inscripcion', compact(['inscripcion', 'hojaVida', 'fotos', 'sintesisArchivo']));
+    $fotos = explode('|', $inscripcion->ruta_fotos_obra);
+    return view('inscripcion', compact(['inscripcion', 'fotos']));
 }
 
 /**

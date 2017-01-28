@@ -20,10 +20,10 @@ class CreateArtistaTable extends Migration
             $table->integer('pais_id')->unsigned()->comment('Pais del artista');
             $table->string('lugar_nacimiento')->comment('Lugar nacimiento');
             $table->date('fecha_nacimiento')->comment('Fecha de nacimiento del artista');
-            $table->string('direccion_postal')->comment('Dirección postal del artista');
+            $table->string('direccion_postal')->nullable()->comment('Dirección postal del artista');
             $table->string('direccion_domicilio')->comment('Dirección domicilio del artista');
             $table->string('email')->comment('Dirección de correo electronico');
-            $table->string('telefono_fijo')->comment('Número del teléfono fijo');
+            $table->string('telefono_fijo')->nullable()->comment('Número del teléfono fijo');
             $table->string('telefono_movil')->comment('Número del teléfono movil');
             $table->integer('perfil_artista_id')->unsigned()->comment('Perfil del artista');
             $table->string('ruta_hoja_vida')->comment('Ubicación del archivo de hoja de vida');

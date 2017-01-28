@@ -3,12 +3,14 @@
 @section('title', 'Registro')
 
 @section('resources')
-	
-<!-- jquery UI CSS -->
-<link rel="stylesheet" type="text/css" href="{{URL::asset('css/jquery-ui.css')}}">
+	<link href="{{URL::asset('jqueryfiler/css/jquery.filer.css')}}" type="text/css" rel="stylesheet" />
+	<link href="{{URL::asset('jqueryfiler/css/themes/jquery.filer-dragdropbox-theme.css')}}" type="text/css" rel="stylesheet" />
+	<script src="{{URL::asset('jqueryfiler/js/jquery.filer.min.js')}}"></script>
+	<!-- jquery UI CSS -->
+	<link rel="stylesheet" type="text/css" href="{{URL::asset('css/jquery-ui.css')}}">
 
-<!-- jquery UI JS -->
-<script type="text/javascript" src="{{URL::asset('js/jquery-ui.js')}}"></script>
+	<!-- jquery UI JS -->
+	<script type="text/javascript" src="{{URL::asset('js/jquery-ui.js')}}"></script>
 
 @endsection
 
@@ -350,7 +352,8 @@
 								<div class="col-md-6">
 									<div class="form-group {{ $errors->has('fotosObra') ? ' has-error' : '' }}">
 										<label for="fotosObra">Fotos Obra</label>
-										<input type="file" name="fotosObra" id="fotosObra" class="form-control-file" value="{{old('fotosObra')}}">
+										<!--<input type="file" name="fotosObra" id="fotosObra" class="form-control-file">-->
+										<input type="file" name="fotosObra[]" id="filer_input" multiple="multiple">
 										@if ($errors->has('fotosObra'))
 											<span>
 												<strong class="alertval">{{ $errors->first('fotosObra') }}</strong>

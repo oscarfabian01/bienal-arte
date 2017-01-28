@@ -45,17 +45,17 @@ return [
 
         'cv' => [
             'driver' => 'local',
-            'root'   => storage_path('app/cv'),
+            'root'   => public_path('storage/cv'),
         ],
 
         'fotos' => [
             'driver' => 'local',
-            'root'   => storage_path('app/fotos'),
+            'root'   => public_path('storage/fotos'),
         ],
 
         'sintesisObra' => [
             'driver' => 'local',
-            'root'   => storage_path('app/sintesisobra'),
+            'root'   => public_path('storage/sintesisobra'),
         ],
 
         'local' => [

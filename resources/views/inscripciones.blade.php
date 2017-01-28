@@ -57,72 +57,116 @@
 		<div class="panel panel-warning" id="panelbienal">
 			<div class="panel-heading headingBienal">Artistas Inscritos</div>
 			<div class="panel-body">
-				<table class='table table-condensed'>
-					<thead>
-						<tr>
-							<th>
-								Id
-							</th>
-							<th>
-								Nombres
-							</th>
-							<th>
-								Apellidos
-							</th>
-							<th>
-								Titulo
-							</th>
-							<th>
-								Valor venta
-							</th>
-							<th>
-								Estado Transacción
-							</th>
-							<th>
-								Detalle
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						@foreach ($inscripciones as $inscripcion)
+				<div class="table-responsive">
+					<table class='table table-condensed'>
+						<thead>
 							<tr>
-								<td>
-									{{$inscripcion->id_inscripcion}}
-								</td>
-								<td>
-									{{$inscripcion->nombre}}
-								</td>
-								<td>
-									{{$inscripcion->apellido}}
-								</td>
-								<td>
-									{{$inscripcion->titulo}}
-								</td>
-								<td>
-									@if(!empty($inscripcion->valor_venta))
-										{{number_format($inscripcion->valor_venta,0,',','.')}}
-									@else
-										No esta en venta
-									@endif
-								</td>
-								<td>
-									@if($inscripcion->estado==4)
-										Aprobada
-									@elseif($inscripcion->estado==5)
-										Expirada
-									@elseif($inscripcion->estado==5)
-										Declinada
-									@else
-										Creado
-									@endif
-								</td>
-								<td>
-									<a class="btn btn-warning botonBienal" href='{{route("inscripcion.show",$inscripcion->id_inscripcion)}}'><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
-								</td>
+								<th>
+									Id
+								</th>
+								<th>
+									Fecha inscripción
+								</th>
+								<th>
+									Nombres
+								</th>
+								<th>
+									Apellidos
+								</th>
+								<th>
+									Teléfono Movil
+								</th>
+								<th>
+									Correo
+								</th>
+								<th>
+									País
+								</th>
+								<th>
+									Perfil
+								</th>
+								<th>
+									Titulo Obra
+								</th>
+								<th>
+									Tema
+								</th>
+								<th>
+									Técnica
+								</th>
+								<th>
+									Valor venta
+								</th>
+								<th>
+									Estado Transacción
+								</th>
+								<th>
+									Detalle
+								</th>
 							</tr>
-						@endforeach
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							@foreach ($inscripciones as $inscripcion)
+								<tr>
+									<td>
+										{{$inscripcion->id_inscripcion}}
+									</td>
+									<td>
+										{{$inscripcion->fecha_inscripcion}}
+									</td>
+									<td>
+										{{$inscripcion->nombre}}
+									</td>
+									<td>
+										{{$inscripcion->apellido}}
+									</td>
+									<td>
+										{{$inscripcion->telefono_movil}}
+									</td>
+									<td>
+										{{$inscripcion->email}}
+									</td>
+									<td>
+										{{$inscripcion->pais}}
+									</td>
+									<td>
+										{{$inscripcion->perfil}}
+									</td>
+									<td>
+										{{$inscripcion->tema}}
+									</td>
+									<td>
+										{{$inscripcion->tecnica}}
+									</td>
+									<td>
+										{{$inscripcion->titulo}}
+									</td>
+									<td>
+										@if(!empty($inscripcion->valor_venta))
+											{{number_format($inscripcion->valor_venta,0,',','.')}}
+										@else
+											No esta en venta
+										@endif
+									</td>
+									<td>
+										@if($inscripcion->estado==4)
+											Aprobada
+										@elseif($inscripcion->estado==5)
+											Expirada
+										@elseif($inscripcion->estado==6)
+											Declinada
+										@else
+											Creado
+										@endif
+									</td>
+									<td>
+										<a class="btn btn-warning botonBienal" href='{{route("inscripcion.show",$inscripcion->id_inscripcion)}}'><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
