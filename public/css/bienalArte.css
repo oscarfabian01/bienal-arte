@@ -34,7 +34,7 @@
 }
 
 #imgFooter{
-	width: 65%;
+	width: 45%;
 	border: 5px solid #b39925
 }
 
@@ -44,6 +44,8 @@
 
 #pFooter{
 	text-align: justify;
+	font-size: 15px;
+	line-height: 1.9;
 }
 
 .botonBienal{
@@ -66,4 +68,17 @@
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:focus, .navbar-default .navbar-nav > .open > a:hover{
 	background-color: #b39925 !important;
+}
+
+#rowFooter{
+	background-color: #7B4911;
+	padding: 15px 0;
+}
+
+#copyrigth{
+    font-size: 15px;
+    padding-left: 15px;
+    padding-right: 119px;
+    padding-top: 65px;
+    text-align: right;
 }

@@ -46,4 +46,12 @@ $(document).ready(function(){
         }
         $("#venta").val(entrada);
     });
+
+    $('#filer_input').filer({
+        limit: 5,
+        maxSize: 8,
+        extensions: ["jpg", "png", "gif", "jpeg"],
+        showThumbs: true,
+        addMore: true
+    });
 });  

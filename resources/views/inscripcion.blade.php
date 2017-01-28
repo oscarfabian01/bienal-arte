@@ -64,7 +64,7 @@
 					<strong> Perfil artista: </strong> {{$inscripcion->perfil}}
 				</div>
 				<div class="col-md-6">
-					<strong> Hoja de vida: </strong> <a href="{{URL::asset($hojaVida)}}" target="_blank"> Descargar</a>
+					<strong> Hoja de vida: </strong> <a href="{{URL::asset('storage/cv/')}}/{{$inscripcion->ruta_hoja_vida}}" target="_blank"> Descargar</a>
 				</div>
 			</div>
 		</div>
@@ -86,7 +86,12 @@
 			</div>
 			<div class='row'>
 				<div class="col-md-6">
-					<strong> Tipo obra: </strong> {{$inscripcion->titulo}}
+					<strong> Técnica: </strong> 
+					@if($inscripcion->id_tecnica <= 4)
+						Pintura - {{$inscripcion->tecnica}}
+					@else
+						Escultura - {{$inscripcion->tecnica}}
+					@endif
 				</div>
 				<div class="col-md-6">
 					<strong> Tema: </strong> {{$inscripcion->tema}}
@@ -94,29 +99,21 @@
 			</div>
 			<div class='row'>
 				<div class="col-md-6">
-					<strong> Alto: </strong> {{$inscripcion->alto_medida}}
+					<strong> Alto: </strong> {{$inscripcion->alto_medida}} CM
 				</div>
 				<div class="col-md-6">
 					@if(!empty($inscripcion->ancho_medida))
-						<strong> Ancho: </strong> {{$inscripcion->ancho_medida}}
+						<strong> Ancho: </strong> {{$inscripcion->ancho_medida}} CM
 					@endif
 					@if(!empty($inscripcion->peso))
-						<strong> Peso: </strong> {{$inscripcion->peso}}
+						<strong> Peso: </strong> {{$inscripcion->peso}} KG
 					@endif
-				</div>
-			</div>
-			<div class='row'>
-				<div class="col-md-6">
-					<strong> Técnica: </strong> {{$inscripcion->tecnica}}
-				</div>
-				<div class="col-md-6">
-					<strong> Fotos Obra: </strong> <a href="{{URL::asset($fotos)}}" target="_blank"> Descargar</a>
 				</div>
 			</div>
 			<div class='row'>
 				@if(!empty($inscripcion->sintesis_archivo))
 					<div class="col-md-12">
-						<strong> Sintesis archivo: </strong> <a href="{{URL::asset($sintesisArchivo)}}" target="_blank"> 
+						<strong> Sintesis archivo: </strong> <a href="{{URL::asset('storage/sintesisobra/')}}/{{$inscripcion->sintesis_archivo}}" target="_blank"> 
 						Descargar</a>
 					</div>
 				@endif
@@ -125,6 +122,14 @@
 						<strong> Sintesis conceptual: </strong> {{$inscripcion->sintesis_conceptual}}
 					</div>
 				@endif
+			</div>
+			<div class='row'>
+				<div class="col-md-12">
+					<strong> Fotos Obra: </strong>
+					@foreach($fotos as $foto)
+						<div><a href="{{URL::asset('storage/fotos/')}}/{{$foto}}" target="_blank"> {{$foto}}</a></div>
+					@endforeach
+				</div>
 			</div>
 		</div>
 	</div>

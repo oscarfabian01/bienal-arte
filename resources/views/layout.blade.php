@@ -42,17 +42,18 @@
         <div class="container">
             <div class="content">
                 @yield('content')
-                 <div class="row" id="rowFooter">
-                    <div class="col-md-4 centerdiv">
-                        <img id="imgFooter" src="{{URL::asset('img/logofooter.jpg')}}">
-                    </div>
-                    <div class="col-md-8">
-                        <blockquote id="blockquoteFooter">
-                            <p id="pFooter">Esta Bienal internacional de arte Neosurrealista fue creada el 13 de abril de 2010 y registrada en Bogotá Colombia. Por el artista Colombiano Ricardo pulido. Creador y fundador del movimiento Neosurrealista y pionero del Neosurrealismo en Colombia el 22 de diciembre de 2016.</p>
-                            <!--<footer></footer>-->
-                        </blockquote>
-                    </div>
-                </div>
+            </div>
+        </div>
+         <div class="row" id="rowFooter">
+            <div class="col-md-4 centerdiv">
+                <img id="imgFooter" src="{{URL::asset('img/logofooter.jpg')}}">
+            </div>
+            <div class="col-md-4">
+                <p id="pFooter">Esta Bienal internacional de arte Neosurrealista fue creada el 13 de abril de 2010 y registrada en Bogotá Colombia. Por el artista Colombiano Ricardo pulido. Creador y fundador del movimiento Neosurrealista y pionero del Neosurrealismo en Colombia el 22 de diciembre de 2016.</p>
+                <!--<footer></footer>-->
+            </div>
+            <div class="col-md-4">
+                <footer id="copyrigth">© 2017 Todos los derechos reservados | Sitio Diseñado por Innclod</footer>
             </div>
         </div>
     </body>
