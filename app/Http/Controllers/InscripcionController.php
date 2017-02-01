@@ -128,12 +128,18 @@ public function store(Request $request)
         }else{
             $sintesisArchivoRoute = '';
         }
-        $arrayFotos = '';
-        $fotosObra = $request->file('fotosObra');
-        foreach ($fotosObra as $foto) {
-            $fotosObraRoute = time().'_'.$foto->getClientOriginalName();
-            Storage::disk('fotos')->put($fotosObraRoute, file_get_contents( $foto->getRealPath() ));
-            $arrayFotos = $fotosObraRoute."|".$arrayFotos;
+        $fotosobra = $request->fotosObra;
+        //return $fotosobra[0];
+        if($fotosobra[0] != '') {
+            $arrayFotos = '';
+            $fotosObra = $request->file('fotosObra');
+            foreach ($fotosObra as $foto) {
+                $fotosObraRoute = time().'_'.$foto->getClientOriginalName();
+                Storage::disk('fotos')->put($fotosObraRoute, file_get_contents( $foto->getRealPath() ));
+                $arrayFotos = $fotosObraRoute."|".$arrayFotos;
+            }
+        }else{
+            $arrayFotos = '';
         }
 
         $obra = Obra::create(['titulo' => $request->titulo
@@ -173,11 +179,11 @@ private function validator(array $array){
         ,'perfil' => 'required|numeric|not_in:0'
         ,'cv' => 'required|mimes:doc,docx,pdf'
         ,'titulo' => 'required|max:255'
-        ,'sintesis' => 'required_without:sintesisArchivo'
+        ,'sintesis' => 'required_without:sintesisArchivo|max:500'
         ,'sintesisArchivo' => 'required_without:sintesis|mimes:doc,docx,pdf'
         ,'tema' => 'required|numeric|not_in:0'
         ,'tecnica' => 'required|numeric|not_in:0'
-        ,'fotosObra' => 'required'
+        ,'fotosObra' => 'array'
         ,'alto' => 'required|numeric'
         ,'tipoObra' => 'required|numeric|not_in:0'
         ,'venta' => 'required_if:ventaC,1'
@@ -445,18 +451,18 @@ public function confirmacion($id, Request $request){
     //Se evalua el currency y el valor a enviar segun el pais
     if($inscripcion->codigo == 'CO'){
         $currency = 'COP';
-        $amount = 50000;
+        $amount = 5000;
     }else{
         $currency = 'USD';
-        $amount = 25;
+        $amount = 2;
     };
 
     $parametros = $this->traerParametro();
 
     //Datos reales
-    /*$merchantId = $parametros['merchantId'];
+    $merchantId = $parametros['merchantId'];
     $accountId = $parametros['accountId'];
-    $description = 'Registro evento Bienal';
+    $description = 'Primera bienal internacional de arte neosurealista en Colombia';
     $referenceCode = $id;
     $apiKey = $parametros['apiKey'];
     $tax = 0;
@@ -473,10 +479,10 @@ public function confirmacion($id, Request $request){
     $shippingAddress = $inscripcion->direccion_postal;
     $shippingCountry = $inscripcion->codigo;
     $ambiente = 0; //1.test, 0.produccin
-    $urlAmbiente = 'https://gateway.payulatam.com/ppp-web-gateway';*/
+    $urlAmbiente = 'https://gateway.payulatam.com/ppp-web-gateway';
 
     //Pruebas
-    $merchantId = $parametros['merchantId'];
+    /*$merchantId = $parametros['merchantId'];
     $accountId = $parametros['accountId'];
     $description = 'Registro evento Bienal pruebas Test PAYU';
     $referenceCode = 'bienal,arte,' . $id;
@@ -495,7 +501,7 @@ public function confirmacion($id, Request $request){
     $shippingAddress = $inscripcion->direccion_postal;
     $shippingCountry = $inscripcion->codigo;
     $ambiente = 1; //1.test, 0.produccin
-    $urlAmbiente = 'https://sandbox.gateway.payulatam.com/ppp-web-gateway';
+    $urlAmbiente = 'https://sandbox.gateway.payulatam.com/ppp-web-gateway';*/
 
     return view('formPasarela', ['merchantId'      => $merchantId, 
                                  'accountId'       => $accountId,
