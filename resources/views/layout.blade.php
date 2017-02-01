@@ -20,6 +20,9 @@
 
     </head>
     <body id="app-layout">
+        <div id="cargando">
+            <img src="{{ URL::asset('img/cargando.gif') }}">
+        </div>
         <nav class="navbar navbar-default navbar-static-top navbienal">
             <div class="container">
                 <div class="navbar-header">

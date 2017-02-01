@@ -24,7 +24,7 @@
 							<td>Referencia de la transacción</td>
 							<td>{{$infoRespuesta->referenceCode}}</td>
 						</tr>
-						@if($infoRespuesta->pseBank != null) {
+						@if($infoRespuesta->pseBank != null)
 							<tr>
 								<td>cus </td>
 								<td>{{$infoRespuesta->cus}}</td>

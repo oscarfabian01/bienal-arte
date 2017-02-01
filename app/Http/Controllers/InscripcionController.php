@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\PerfilArtista;
@@ -31,43 +32,11 @@ class InscripcionController extends Controller
  */
 public function index(Request $request)
 {   
-    $inscripciones = DB::table('inscripcion as ins')
-    ->join('artista as art','art.id','=','ins.artista_id')
-    ->join('obra as obr','obr.id','=','ins.obra_id')
-    ->join('pais as p','p.id','=','art.pais_id')
-    ->join('perfil_artista as per','per.id','=','art.perfil_artista_id')
-    ->join('tecnica_obra as tec','tec.id','=','obr.tecnica')
-    ->join('tema_obra as tem','tem.id','=','obr.tema')
-    ->select('ins.id as id_inscripcion',
-        'ins.created_at as fecha_inscripcion',
-        'art.nombre',
-        'art.apellido',
-        'art.email',
-        'art.telefono_movil',
-        'obr.titulo',
-        'obr.valor_venta',
-        'ins.estado',
-        'p.pais',
-        'per.perfil',
-        'tec.tecnica',
-        'tem.tema'
-        );
-    if($request->id){
-        $inscripciones = $inscripciones->where('ins.id', '=', $request->id);
-    }
-    if($request->nombre){
-        $inscripciones = $inscripciones->where('art.nombre', 'like', '%' . $request->nombre . '%');
-    }
-    if($request->apellido){
-        $inscripciones = $inscripciones->where('art.apellido', 'like', '%' . $request->apellido . '%');
-    }
-    if($request->titulo){
-        $inscripciones = $inscripciones->where('obr.titulo', 'like', '%' . $request->titulo . '%');
-    }
+    $inscripciones = $this->listInscripciones($request);
 
     $inscripciones = $inscripciones->paginate(50);
-
     return view('inscripciones', ['inscripciones' => $inscripciones, 'request' => $request]);
+
 }
 
 /**
@@ -278,6 +247,25 @@ public function destroy($id)
     //
 }
 
+public function showExcel(Request $request){
+
+    $inscripciones = $this->listInscripciones($request);
+    Excel::create('Laravel Excel', function($excel) use($inscripciones) {
+        $excel->sheet('Inscripciones', function($sheet) use ($inscripciones) {
+            $infoExcel = []; 
+            $infoExcel[] = ['Id', 'Fecha inscripción', 'Nombres', 'Apellidos',
+                            'Teléfono Movil', 'Correo', 'País', 'Perfil', 'Titulo Obra',
+                            'Tema' ,'Técnica', 'Valor venta', 'Estado Transacción'];
+            $inscripciones = $inscripciones->get();
+            foreach($inscripciones as $inscripcion) 
+            { 
+                $infoExcel[] = $inscripcion->toArray();
+            }
+            $sheet->fromArray($infoExcel, null, 'A1', false, false);
+        });
+    })->export('xls');
+}
+
 /**
  * Página de respuesta payU
  *
@@ -337,12 +325,12 @@ public function payUconfirmation(Request $request){
     $firma_cadena = "$ApiKey~$request->merchant_id~$request->reference_sale~$new_value~$request->currency~$request->state_pol";
     $firma_creada = md5($firma_cadena);
     $firma = $request->sign;
-    $referencia = explode(',',$request->reference_sale);
+    //$referencia = explode(',',$request->reference_sale);
 
     if (strtoupper($firma) == strtoupper($firma_creada)) {
 
         //Se actualiza el estado de la inscripción
-        Inscripcion::where('id','=',$referencia[2])
+        Inscripcion::where('id','=',$request->reference_sale)
         ->update(['estado' => $request->state_pol]);
 
         //Se inserta los datos de PayU a la tabla como respaldo de la operación
@@ -451,10 +439,10 @@ public function confirmacion($id, Request $request){
     //Se evalua el currency y el valor a enviar segun el pais
     if($inscripcion->codigo == 'CO'){
         $currency = 'COP';
-        $amount = 5000;
+        $amount = 9000;
     }else{
         $currency = 'USD';
-        $amount = 2;
+        $amount = 3;
     };
 
     $parametros = $this->traerParametro();
@@ -524,7 +512,7 @@ public function confirmacion($id, Request $request){
                                  'shippingCountry' => $shippingCountry,
                                  'ambiente'        => $ambiente,
                                  'urlAmbiente'     => $urlAmbiente]);
-    }
+}
 
 public function actualizarEstado(Request $request){
     $validator = $this->validatorAE($request->all());
@@ -587,6 +575,45 @@ public function traerParametro($parametro = 'all'){
         $parametro = Parametro::pluck('valor','parametro')->all();
     }
     return $parametro;
+}
+
+
+function listInscripciones($request){
+
+    $inscripciones = Inscripcion::join('artista as art','art.id','=','inscripcion.artista_id')
+    ->join('obra as obr','obr.id','=','inscripcion.obra_id')
+    ->join('pais as p','p.id','=','art.pais_id')
+    ->join('perfil_artista as per','per.id','=','art.perfil_artista_id')
+    ->join('tecnica_obra as tec','tec.id','=','obr.tecnica')
+    ->join('tema_obra as tem','tem.id','=','obr.tema')
+    ->select('inscripcion.id as id_inscripcion',
+        'inscripcion.created_at as fecha_inscripcion',
+        'art.nombre',
+        'art.apellido',
+        'art.email',
+        'art.telefono_movil',
+        'obr.titulo',
+        'obr.valor_venta',
+        'inscripcion.estado',
+        'p.pais',
+        'per.perfil',
+        'tec.tecnica',
+        'tem.tema'
+        );
+    if($request->id){
+        $inscripciones = $inscripciones->where('inscripcion.id', '=', $request->id);
+    }
+    if($request->nombre){
+        $inscripciones = $inscripciones->where('art.nombre', 'like', '%' . $request->nombre . '%');
+    }
+    if($request->apellido){
+        $inscripciones = $inscripciones->where('art.apellido', 'like', '%' . $request->apellido . '%');
+    }
+    if($request->titulo){
+        $inscripciones = $inscripciones->where('obr.titulo', 'like', '%' . $request->titulo . '%');
+    }
+
+    return $inscripciones;
 }
 
 }

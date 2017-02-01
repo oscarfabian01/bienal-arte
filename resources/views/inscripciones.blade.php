@@ -12,41 +12,41 @@
 				<div class="panel-body">
 					{!!Form::open(['route' => 'inscripcion.index', 'method'=>'GET', 'id'=>'form-filtros'])!!}
 					{!!csrf_field()!!}
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for='id'>ID</label>
-								<input type="text" name="id" class="form-control" value="{{$request->id}}">
+						<div class="row">
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for='id'>ID</label>
+									<input type="text" name="id" class="form-control" value="{{$request->id}}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for='nombre'>Nombre</label>
+									<input type="text" name="nombre" class="form-control" value="{{$request->nombre}}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for='apellido'>Apellido</label>
+									<input type="text" name="apellido" class="form-control" value="{{$request->apellido}}">
+								</div>
+							</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for='titulo'>Título</label>
+									<input type="text" name="titulo" class="form-control" value="{{$request->titulo}}">
+								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for='nombre'>Nombre</label>
-								<input type="text" name="nombre" class="form-control" value="{{$request->nombre}}">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<button type="submit" class="btn btn-warning botonBienal">
+									<i class="fa fa-btn fa-search"></i> Buscar</button>
+								</div>
 							</div>
 						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for='apellido'>Apellido</label>
-								<input type="text" name="apellido" class="form-control" value="{{$request->apellido}}">
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="form-group">
-								<label for='titulo'>Título</label>
-								<input type="text" name="titulo" class="form-control" value="{{$request->titulo}}">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group">
-								<button type="submit" class="btn btn-warning botonBienal">
-								<i class="fa fa-btn fa-search"></i> Buscar</button>
-							</div>
-						</div>
-					</div>
-				{!!Form::close()!!}
+					{!!Form::close()!!}
 				</div>
 			</div>
 		</div>
@@ -166,6 +166,17 @@
 							@endforeach
 						</tbody>
 					</table>
+
+					{!!Form::open(['route' => 'inscripcion.showexcel', 'method'=>'GET', 'id'=>'form-excel'])!!}
+					{!!csrf_field()!!}
+						<input type="hidden" name="id" class="form-control" value="{{$request->id}}">
+						<input type="hidden" name="nombre" class="form-control" value="{{$request->nombre}}">
+						<input type="hidden" name="apellido" class="form-control" value="{{$request->apellido}}">
+						<input type="hidden" name="titulo" class="form-control" value="{{$request->titulo}}">
+						<button type="submit" class="btn btn-warning botonBienal">
+									<i class="fa fa-btn fa-search"></i> Descargar Excel</button>
+					{!!Form::close()!!}
+
 				</div>
 			</div>
 		</div>

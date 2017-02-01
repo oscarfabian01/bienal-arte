@@ -30,6 +30,7 @@ Route::post('sendemail', ['uses' => 'InscripcionController@sendEmail', 'as' => '
 Route::group(['middleware' => 'auth'],function(){
 	Route::get('inscripciones', ['uses' => 'InscripcionController@index', 'as' => 'inscripcion.index']);
 	Route::get('inscripcion/{id}', ['uses' => 'InscripcionController@show', 'as' => 'inscripcion.show']);
+	Route::get('inscripcionesexport', ['uses' => 'InscripcionController@showExcel', 'as' => 'inscripcion.showexcel']);
 	Route::get('mensaje', ['uses' => 'InscripcionController@showEmail', 'as' => 'inscripcion.showemail']);
 });
 

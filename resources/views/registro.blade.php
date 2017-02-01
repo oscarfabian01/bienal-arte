@@ -366,7 +366,7 @@
 					</fieldset>
 					<div class="row">
 						<div class="col-md-12">
-							<button type="submit" class="btn btn-warning botonBienal">
+							<button type="submit" class="btn btn-warning botonBienal" id="btnRegistro">
 							<i class="fa fa-btn fa-send"></i> Enviar y pagar</button>
 						</div>
 					</div>
@@ -381,4 +381,9 @@
 @section('scripts')
 	<script type="text/javascript" src="{{URL::asset('scripts/calendar.js')}}"></script>
 	<script type="text/javascript" src="{{URL::asset('scripts/campos.js')}}"></script>
+	<script>
+		$('#btnRegistro').click(function(){
+			$('#cargando').css('display', 'block');
+		});
+	</script>
 @endsection
