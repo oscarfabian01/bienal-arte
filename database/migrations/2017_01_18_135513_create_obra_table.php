@@ -16,9 +16,9 @@ class CreateObraTable extends Migration
         Schema::create('obra', function(Blueprint $table){
             $table->increments('id')->comment('ID de la tabla');
             $table->string('titulo')->comment('Titulo de la obra');
-            $table->string('sintesis_conceptual')->comment('Sintesis conceptual de la obra');
+            $table->string('sintesis_conceptual', 500)->comment('Sintesis conceptual de la obra');
             $table->string('sintesis_archivo')->comment('Sintesis conceptual de la obra en archivo');
-            $table->string('ruta_fotos_obra')->comment('Ubicación del archivo de las fotos de la obra');
+            $table->string('ruta_fotos_obra', 500)->comment('Ubicación del archivo de las fotos de la obra');
             $table->string('tipo_obra')->comment('Tipo de obra Pintara, Escultura, ETC.');
             $table->integer('alto_medida')->comment('Alto de la obra en cm');
             $table->integer('ancho_medida')->nullable()->comment('ancho de la obra en cm');
