@@ -18,5 +18,5 @@ class Inscripcion extends Model
      *
      * @var array
      */
-    protected $fillable = ['artista_id', 'obra_id', 'estado'];
+    protected $fillable = ['artista_id', 'obra_id', 'estado', 'aceptado'];
 }

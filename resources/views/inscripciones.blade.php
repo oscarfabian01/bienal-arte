@@ -106,6 +106,9 @@
 									Estado Transacción
 								</th>
 								<th>
+									Aceptado
+								</th>
+								<th>
 									Detalle
 								</th>
 							</tr>
@@ -155,6 +158,9 @@
 									</td>
 									<td>
 										{{$inscripcion->estado}}
+									</td>
+									<td>
+										{{$inscripcion->aceptado}}
 									</td>
 									<td>
 										<a class="btn btn-warning botonBienal" href='{{route("inscripcion.show",$inscripcion->id_inscripcion)}}'><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
