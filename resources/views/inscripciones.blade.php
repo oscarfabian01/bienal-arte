@@ -3,6 +3,11 @@
 @section('content')
 
 @section('title', 'Artistas')
+
+@section('resources')
+	<script type="text/javascript" src="{{URL::asset('js/jquery.tablesorter.min.js')}}"></script>
+	<script type="text/javascript" src="{{URL::asset('js/jquery-ui.js')}}"></script>
+@endsection
 	
 	<!--Formulario-->
 	
@@ -58,7 +63,7 @@
 			<div class="panel-heading headingBienal">Artistas Inscritos</div>
 			<div class="panel-body">
 				<div class="table-responsive">
-					<table class='table table-condensed'>
+					<table id="tableArtistas" class='table table-condensed tablesorter'>
 						<thead>
 							<tr>
 								<th>
@@ -133,13 +138,13 @@
 										{{$inscripcion->perfil}}
 									</td>
 									<td>
+										{{$inscripcion->titulo}}
+									</td>
+									<td>
 										{{$inscripcion->tema}}
 									</td>
 									<td>
 										{{$inscripcion->tecnica}}
-									</td>
-									<td>
-										{{$inscripcion->titulo}}
 									</td>
 									<td>
 										@if(!empty($inscripcion->valor_venta))
@@ -149,15 +154,7 @@
 										@endif
 									</td>
 									<td>
-										@if($inscripcion->estado==4)
-											Aprobada
-										@elseif($inscripcion->estado==5)
-											Expirada
-										@elseif($inscripcion->estado==6)
-											Declinada
-										@else
-											Creado
-										@endif
+										{{$inscripcion->estado}}
 									</td>
 									<td>
 										<a class="btn btn-warning botonBienal" href='{{route("inscripcion.show",$inscripcion->id_inscripcion)}}'><i class="fa fa-eye" aria-hidden="true"></i> Ver</a>
@@ -166,6 +163,7 @@
 							@endforeach
 						</tbody>
 					</table>
+					{{$inscripciones->links()}}
 
 					{!!Form::open(['route' => 'inscripcion.showexcel', 'method'=>'GET', 'id'=>'form-excel'])!!}
 					{!!csrf_field()!!}
@@ -174,11 +172,19 @@
 						<input type="hidden" name="apellido" class="form-control" value="{{$request->apellido}}">
 						<input type="hidden" name="titulo" class="form-control" value="{{$request->titulo}}">
 						<button type="submit" class="btn btn-warning botonBienal">
-									<i class="fa fa-btn fa-search"></i> Descargar Excel</button>
+						<i class="fa fa-btn fa-search"></i> Descargar Excel</button>
 					{!!Form::close()!!}
 
 				</div>
 			</div>
 		</div>
 	</div>
+@endsection
+
+@section('scripts')
+	<script>
+		$(document).ready(function(){
+			$("#tableArtistas").tablesorter();
+		})
+	</script>
 @endsection

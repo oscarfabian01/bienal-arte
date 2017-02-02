@@ -590,15 +590,16 @@ function listInscripciones($request){
         'inscripcion.created_at as fecha_inscripcion',
         'art.nombre',
         'art.apellido',
-        'art.email',
         'art.telefono_movil',
-        'obr.titulo',
-        'obr.valor_venta',
-        'inscripcion.estado',
+        'art.email',
         'p.pais',
         'per.perfil',
+        'obr.titulo',
+        'tem.tema',
         'tec.tecnica',
-        'tem.tema'
+        'obr.valor_venta',
+        DB::raw('(CASE WHEN inscripcion.estado IS NULL THEN "Pendiente" WHEN 4 THEN "Aprobada" WHEN 5 THEN "Expirada" WHEN 6 THEN "Declinada" END) as estado')
+        //'inscripcion.estado'
         );
     if($request->id){
         $inscripciones = $inscripciones->where('inscripcion.id', '=', $request->id);

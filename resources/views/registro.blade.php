@@ -22,7 +22,7 @@
 			<div class="panel-body">
 				{!!Form::open(['route' => 'inscripcion.store', 'method' => 'POST', 'id' => 'form-inscripcion', 'enctype' => "multipart/form-data"])!!}
 					<fieldset>
-						<legend><strong class="strongbienal">Formulario de inscripción 2017 a Primera bienal internacional de arte neosurealista en Colombia.</strong></legend>
+						<legend><strong class="strongbienal">Formulario de inscripción Primera bienal internacional de arte neosurealista en Colombia.</strong></legend>
 						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group {{ $errors->has('nombre') ? ' has-error' : '' }}">
