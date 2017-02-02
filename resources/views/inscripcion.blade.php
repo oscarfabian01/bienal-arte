@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('title','Inscripcion')
 
+@section('resources')
+	<script type="text/javascript" src="{{URL::asset('js/boostrap-toggle.min.js')}}"></script>
+	<link rel="stylesheet" type="text/css" href="{{URL::asset('css/bootstrap-toggle.min.css')}}">
+@endsection
+
 @section('content')
 <div class="panel-group">
 	<div class="panel panel-warning" id="panelbienal">
@@ -142,11 +147,11 @@
 				<input type="hidden" name="_method" value="PUT">
 				<input type="hidden" name="idInscripcion" value="{{$inscripcion->id_inscripcion}}">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-4 col-xs-12">
 						<div class="form-group {{ $errors->has('estadoPayu') ? ' has-error' : '' }}">
 							<label for="estadoPayu">Estado</label>
 							<select name="estadoPayu" id="estadoPayu" class="form-control">
-								<option value="0" @if($inscripcion->estado == 0) selected="selected" @endif>Seleccionar</option>
+								<option value="0" @if($inscripcion->estado == 0) selected="selected" @endif>Pendiente</option>
 								<option value="4" @if($inscripcion->estado == 4) selected="selected" @endif>Aprobada</option>
 								<option value="5" @if($inscripcion->estado == 5) selected="selected" @endif>Expirada</option>
 								<option value="6" @if($inscripcion->estado == 6) selected="selected" @endif>Declinada</option>
@@ -158,7 +163,13 @@
 							@endif
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-4 col-xs-12">
+						<div class="form-group {{ $errors->has('aceptado') ? ' has-error' : '' }}">
+							<input id="aceptado" name='aceptado' checked data-toggle="toggle" data-off="No" data-on="Si" data-onstyle="default" data-offstyle="danger" type="checkbox">
+							<input type="hidden" id="haceptado" {{($inscripcion->aceptado == 1) ? 'value = 1' : 'value = 0'}}>
+						</div>
+					</div>
+					<div class="col-md-4 col-xs-12">
 						<button class="btn btn-warning botonBienal"><i class="fa fa-floppy-o" aria-hidden="true"></i>
 						 Guardar</button>
 					</div>
@@ -167,4 +178,15 @@
 		</div>
 	</div>
 </div>
+@endsection
+@section('scripts')
+	<script>
+		$(document).ready(function(){
+			if($('#haceptado').val() == 1){
+				$('#aceptado').bootstrapToggle('on');
+			}else{
+				$('#aceptado').bootstrapToggle('off');
+			}
+		})
+	</script>
 @endsection

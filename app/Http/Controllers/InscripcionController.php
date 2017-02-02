@@ -181,6 +181,7 @@ public function show($id)
     ->select('ins.id as id_inscripcion',
         'ins.created_at as fecha_inscripcion',
         'ins.estado as estado',
+        'ins.aceptado as aceptado',
         'art.nombre',
         'art.apellido',
         'art.lugar_nacimiento',
@@ -255,7 +256,7 @@ public function showExcel(Request $request){
             $infoExcel = []; 
             $infoExcel[] = ['Id', 'Fecha inscripción', 'Nombres', 'Apellidos',
                             'Teléfono Movil', 'Correo', 'País', 'Perfil', 'Titulo Obra',
-                            'Tema' ,'Técnica', 'Valor venta', 'Estado Transacción'];
+                            'Tema' ,'Técnica', 'Valor venta', 'Estado Transacción', 'Aceptado'];
             $inscripciones = $inscripciones->get();
             foreach($inscripciones as $inscripcion) 
             { 
@@ -519,9 +520,16 @@ public function actualizarEstado(Request $request){
     if($validator->fails()){
         return Redirect::route('inscripcion.show', $request->idInscripcion)->withErrors($validator)
                 ->withInput();
-    }else{                
+    }else{
+        $aceptado = $request->aceptado;
+        if ($aceptado == 'on') {
+            $marca = 1;
+        }else{
+            $marca = 0;
+        }
         Inscripcion::where('id', $request->idInscripcion)
-            ->update(['estado' => $request->estadoPayu]);
+            ->update(['estado' => $request->estadoPayu,
+                'aceptado' => $marca]);
         return Redirect::route('inscripcion.show', $request->idInscripcion);
     }
 }
@@ -574,7 +582,6 @@ private function validatorEmailInscripciones(Array $array){
 
 private function validatorAE(Array $array){
     $rules = [
-        'estadoPayu' => 'not_in:0'
     ];
     return validator::make($array, $rules);
 }
@@ -609,9 +616,8 @@ function listInscripciones($request){
         'tem.tema',
         'tec.tecnica',
         'obr.valor_venta',
-        DB::raw('(CASE WHEN inscripcion.estado IS NULL THEN "Pendiente" WHEN 4 THEN "Aprobada" WHEN 5 THEN "Expirada" WHEN 6 THEN "Declinada" END) as estado')
-        //'inscripcion.estado'
-        );
+        DB::raw('(CASE WHEN inscripcion.estado IS NULL THEN "Pendiente" WHEN inscripcion.estado = 4 THEN "Aprobada" WHEN inscripcion.estado = 5 THEN "Expirada" WHEN inscripcion.estado = 6 THEN "Declinada" WHEN inscripcion.estado = 0 THEN "Pendiente" END) as estado'),
+        DB::raw('(CASE WHEN inscripcion.aceptado IS NULL THEN "No" WHEN inscripcion.aceptado = 1 THEN "Si" WHEN inscripcion.aceptado = 0 THEN "No" END) as aceptado'));
     if($request->id){
         $inscripciones = $inscripciones->where('inscripcion.id', '=', $request->id);
     }
