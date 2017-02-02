@@ -67,6 +67,8 @@
 						<thead>
 							<tr>
 								<th>
+								</th>
+								<th>
 									Id
 								</th>
 								<th>
@@ -113,6 +115,9 @@
 						<tbody>
 							@foreach ($inscripciones as $inscripcion)
 								<tr>
+									<td>
+										<input type="checkbox" name="artistasEmail"" value="{{$inscripcion->email}}" class="checkEmail">
+									</td>
 									<td>
 										{{$inscripcion->id_inscripcion}}
 									</td>
@@ -164,17 +169,32 @@
 						</tbody>
 					</table>
 					{{$inscripciones->links()}}
-
-					{!!Form::open(['route' => 'inscripcion.showexcel', 'method'=>'GET', 'id'=>'form-excel'])!!}
-					{!!csrf_field()!!}
-						<input type="hidden" name="id" class="form-control" value="{{$request->id}}">
-						<input type="hidden" name="nombre" class="form-control" value="{{$request->nombre}}">
-						<input type="hidden" name="apellido" class="form-control" value="{{$request->apellido}}">
-						<input type="hidden" name="titulo" class="form-control" value="{{$request->titulo}}">
-						<button type="submit" class="btn btn-warning botonBienal">
-						<i class="fa fa-btn fa-search"></i> Descargar Excel</button>
-					{!!Form::close()!!}
-
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						{!!Form::open(['route' => 'inscripcion.showexcel', 'method'=>'GET', 'id'=>'form-excel'])!!}
+						{!!csrf_field()!!}
+							<input type="hidden" name="id" class="form-control" value="{{$request->id}}">
+							<input type="hidden" name="nombre" class="form-control" value="{{$request->nombre}}">
+							<input type="hidden" name="apellido" class="form-control" value="{{$request->apellido}}">
+							<input type="hidden" name="titulo" class="form-control" value="{{$request->titulo}}">
+							<button type="submit" class="btn btn-warning botonBienal">
+							<i class="fa fa-btn fa-search"></i> Descargar Excel</button>
+						{!!Form::close()!!}
+					</div>
+					<div class="col-md-6">
+						{!!Form::open(['route' => 'inscripcion.showemail', 'method'=>'GET', 'id'=>'form-email-inscripcion'])!!}
+						{!!csrf_field()!!}
+							<input type="hidden" name="emails" id="emails" value="">
+							@if ($errors->has('emails'))
+								<span>
+									<strong class="alertval">{{ $errors->first('emails') }}</strong>
+								</span>
+							@endif
+							<button type="submit" class="btn btn-warning botonBienal">				
+							<i class="fa fa-btn fa-send"></i> Enviar Email</button>
+						{!!Form::close()!!}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -184,7 +204,17 @@
 @section('scripts')
 	<script>
 		$(document).ready(function(){
+			var emails;
 			$("#tableArtistas").tablesorter();
+			
+			$(".checkEmail").click(function(){
+				emails = '';
+				$("input:checkbox[name=artistasEmail]:checked").each(function(){
+	   				emails =  $(this).val() + ',' + emails;
+				});
+				emails = emails.slice(0,-1);
+				$('#emails').val(emails);
+			})
 		})
 	</script>
 @endsection

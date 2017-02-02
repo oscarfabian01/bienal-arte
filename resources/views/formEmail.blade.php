@@ -11,25 +11,19 @@
 				{!!Form::open(['route' => 'inscripcion.sendemail', 'method' => 'POST', 'id' => 'form-mail', 'enctype' => "multipart/form-data"])!!}
 					<div class="row">
 						<div class="col-md-12">
-							<label for="artista">Artistas</label>
+							<label for="artista">Para</label>
 						</div>
 					</div>
 					<div class="row">
-						@foreach($artistas as $artista)
-							<div class="col-md-12">
-								<div class="form-group {{ $errors->has('artista') ? ' has-error' : '' }}">
-									<input type="checkbox" name="artista[]" value="{{$artista->email}}" {{ ( is_array(old('artista')) && in_array($artista->email, old('artista')) ) ? 'checked ' : '' }}>
-									{{$artista->nombre}} {{$artista->apellido}}
-								</div>
-							</div>
-						@endforeach
-						@if ($errors->has('artista'))
-							<div class="col-md-12">
+						<div class="col-md-12">
+							{{$request->emails}}
+							<input type="hidden" name="emails" value="{{$request->emails}}">
+							@if ($errors->has('emails'))
 								<span>
-									<strong class="alertval">{{ $errors->first('artista') }}</strong>
+									<strong class="alertval">{{ $errors->first('emails') }}</strong>
 								</span>
-							</div>
-						@endif
+							@endif
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">

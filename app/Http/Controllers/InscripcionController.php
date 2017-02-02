@@ -250,7 +250,7 @@ public function destroy($id)
 public function showExcel(Request $request){
 
     $inscripciones = $this->listInscripciones($request);
-    Excel::create('Laravel Excel', function($excel) use($inscripciones) {
+    Excel::create('Inscripciones', function($excel) use($inscripciones) {
         $excel->sheet('Inscripciones', function($sheet) use ($inscripciones) {
             $infoExcel = []; 
             $infoExcel[] = ['Id', 'Fecha inscripción', 'Nombres', 'Apellidos',
@@ -526,10 +526,14 @@ public function actualizarEstado(Request $request){
     }
 }
 
-public function showEmail(){
-    $artistas = Artista::groupBy('email')
-                    ->get();
-    return view('formEmail', ['artistas' => $artistas]);   
+public function showEmail(Request $request){
+    $validator = $this->validatorEmailInscripciones($request->all());
+    if($validator->fails()){
+        return Redirect::route('inscripcion.index')->withErrors($validator)
+            ->withInput();
+    }else{
+        return view('formEmail', ['request' => $request]);   
+    }
 }
 
 public function sendEmail(Request $request){
@@ -541,7 +545,7 @@ public function sendEmail(Request $request){
         $parametros = $this->traerParametro('emailAdmin');
         $sender = $parametros['emailAdmin'];
         $subject = $request->subject;
-        $to = $request->artista;
+        $to = explode(',', $request->emails);
         Mail::send('email', ['mensaje' => $request->mensaje], function ($message) use ($sender, $subject, $to){
             $message->sender($sender);
             $message->subject($subject);
@@ -556,7 +560,14 @@ private function validatorEmail(Array $array){
     $rules = [
                 'subject' => 'required',
                 'mensaje' => 'required',
-                'artista' => 'required'
+                'emails'  => 'required'
+            ];
+    return validator::make($array, $rules);
+}
+
+private function validatorEmailInscripciones(Array $array){
+    $rules = [
+                'emails' => 'required',
             ];
     return validator::make($array, $rules);
 }
