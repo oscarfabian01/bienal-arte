@@ -540,7 +540,9 @@ public function showEmail(Request $request){
         return Redirect::route('inscripcion.index')->withErrors($validator)
             ->withInput();
     }else{
-        return view('formEmail', ['request' => $request]);   
+        $emails = array_unique(explode(',', $request->emails));
+        $emails = implode(',',$emails);
+        return view('formEmail', ['emails' => $emails]);   
     }
 }
 
@@ -630,7 +632,7 @@ function listInscripciones($request){
     if($request->titulo){
         $inscripciones = $inscripciones->where('obr.titulo', 'like', '%' . $request->titulo . '%');
     }
-
+    $inscripciones = $inscripciones->orderBy('inscripcion.id', 'ASC');
     return $inscripciones;
 }
 

@@ -16,8 +16,8 @@
 					</div>
 					<div class="row">
 						<div class="col-md-12">
-							{{$request->emails}}
-							<input type="hidden" name="emails" value="{{$request->emails}}">
+							{{$emails}}
+							<input type="hidden" name="emails" value="{{$emails}}">
 							@if ($errors->has('emails'))
 								<span>
 									<strong class="alertval">{{ $errors->first('emails') }}</strong>
